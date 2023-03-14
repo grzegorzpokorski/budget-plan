@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply flex min-h-[100dvh] flex-col;
+}
+
+@layer components {
+  .scrollbar-gutter-stable {
+    scrollbar-gutter: stable;
+  }
+}
