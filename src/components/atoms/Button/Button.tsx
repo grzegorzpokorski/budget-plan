@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 type ButtonProps = {
   children: ReactNode;
   type?: "button" | "submit";
-  size?: "default" | "large";
+  size?: "default" | "large" | "square";
   variant?: "default";
   disabled?: boolean;
   onClick?: () => void;
@@ -22,6 +22,7 @@ const variants = {
 const sizes = {
   default: "py-2 px-4 text-sm",
   large: "py-2 px-4 text-base",
+  square: "p-2",
 } as const;
 
 export const Button = ({

@@ -1,4 +1,5 @@
 import { Button } from "@/components/atoms/Button/Button";
+import { FaEdit, FaPlus } from "react-icons/fa";
 
 export default function Home() {
   return (
@@ -6,6 +7,14 @@ export default function Home() {
       <Button>Dodaj wydatek / przychód</Button>
       <hr className="my-6" />
       <Button size="large">Dodaj wydatek / przychód</Button>
+      <hr className="my-6" />
+      <Button size="square">
+        <FaEdit />
+      </Button>
+      <hr className="my-6" />
+      <Button size="square">
+        <FaPlus className="rotate-45" />
+      </Button>
     </div>
   );
 }
