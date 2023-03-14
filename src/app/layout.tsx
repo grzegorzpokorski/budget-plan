@@ -4,7 +4,7 @@ import { Poppins } from "next/font/google";
 
 const rubik = Poppins({
   weight: ["400", "500", "600", "700"],
-  variable: "--font-rubik",
+  variable: "--font-poppins",
 });
 
 export default function RootLayout({ children }: { children: ReactNode }) {

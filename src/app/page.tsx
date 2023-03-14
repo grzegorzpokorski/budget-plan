@@ -1,10 +1,11 @@
+import { Button } from "@/components/atoms/Button/Button";
+
 export default function Home() {
   return (
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero,
-      repudiandae similique. Veniam odit ut eos facere molestias asperiores
-      doloribus deserunt, modi hic nobis soluta, cumque quos labore esse!
-      Inventore, a!
-    </p>
+    <div className="max-w-2xl mx-auto px-3 mt-24">
+      <Button>Dodaj wydatek / przychód</Button>
+      <hr className="my-6" />
+      <Button size="large">Dodaj wydatek / przychód</Button>
+    </div>
   );
 }
