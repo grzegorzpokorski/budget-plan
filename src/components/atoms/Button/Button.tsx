@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 type ButtonProps = {
   children: ReactNode;
-  type?: "button" | "submit";
+  type?: "button" | "submit" | "reset";
   size?: "default" | "large" | "square";
   variant?: "default" | "outline" | "white-outline";
   disabled?: boolean;
