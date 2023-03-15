@@ -1,6 +1,6 @@
 import { twMerge } from "tailwind-merge";
 
-export const Progressbar = ({ progress }) => {
+export const Progressbar = ({ progress }: { progress: number }) => {
   return (
     <div
       className={twMerge(

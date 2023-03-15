@@ -24,11 +24,11 @@ module.exports = {
   },
   ignorePatterns: ["build/", "dist/", "node_modules/", "*.js", "*.jsx"],
   rules: {
-    "@typescript-eslint/restrict-template-expressions": "off",
     "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-unsafe-assignment": "error",
     "@next/next/no-html-link-for-pages": "off",
+    // "@typescript-eslint/restrict-template-expressions": "off",
+    // "@typescript-eslint/no-empty-interface": "off",
+    // "@typescript-eslint/no-unsafe-assignment": "error",
   },
 };
