@@ -10,7 +10,7 @@ const rubik = Poppins({
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pl" className={`${rubik.variable} scrollbar-gutter-stable`}>
-      <body>{children}</body>
+      <body className="bg-neutral-200 pb-16 md:pt-16 md:pb-0">{children}</body>
     </html>
   );
 }

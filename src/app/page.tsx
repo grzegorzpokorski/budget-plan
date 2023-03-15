@@ -1,20 +1,18 @@
-import { Button } from "@/components/atoms/Button/Button";
-import { FaEdit, FaPlus } from "react-icons/fa";
+import { Container } from "@/components/atoms/Container/Container";
+import { BudgetRealization } from "@/components/molecules/BudgetRealization/BudgetRealization";
+import { Expenses } from "@/components/organisms/Expenses/Expenses";
+import { MainHeader } from "@/components/organisms/MainHeader/MainHeader";
+import { Summary } from "@/components/organisms/Summary/Summary";
 
 export default function Home() {
   return (
-    <div className="max-w-2xl mx-auto px-3 mt-24">
-      <Button>Dodaj wydatek / przychód</Button>
-      <hr className="my-6" />
-      <Button size="large">Dodaj wydatek / przychód</Button>
-      <hr className="my-6" />
-      <Button size="square">
-        <FaEdit />
-      </Button>
-      <hr className="my-6" />
-      <Button size="square">
-        <FaPlus className="rotate-45" />
-      </Button>
-    </div>
+    <>
+      <MainHeader />
+      <Container className="flex flex-col gap-8 py-8">
+        <BudgetRealization />
+        <Summary />
+        <Expenses />
+      </Container>
+    </>
   );
 }
