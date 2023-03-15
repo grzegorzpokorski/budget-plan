@@ -7,6 +7,7 @@ export const Progressbar = ({ progress }: { progress: number }) => {
         "my-2 w-full bg-transparent border-2 rounded",
         progress > 100 ? "border-red-500" : "border-blue-500",
       )}
+      aria-hidden
     >
       <div
         className={twMerge(
