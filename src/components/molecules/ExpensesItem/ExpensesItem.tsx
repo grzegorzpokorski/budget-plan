@@ -15,8 +15,8 @@ export const ExpensesItem = ({
 }: ExpensesItemProps) => {
   return (
     <li className="flex flex-row items-start justify-start gap-6 px-6 py-4 w-full">
-      <div className="flex flex-col gap-1 md:gap-4 md:flex-row">
-        <div className="font-medium text-red-500 mt-1.5 md:mt-1 min-w-[105px]">
+      <div className="flex flex-col gap-1 md:gap-4 md:flex-row md:items-center">
+        <div className="font-medium text-red-500 mt-1.5 min-w-[105px]">
           -{formatCurrency(amount)}
         </div>
         <div className="flex flex-col text-sm mt-1">
