@@ -7,6 +7,7 @@ type ButtonProps = {
   size?: "default" | "large" | "square";
   variant?: "default" | "outline" | "white-outline";
   disabled?: boolean;
+  className?: string;
   onClick?: () => void;
 };
 
@@ -18,7 +19,7 @@ const defaultStyles = twMerge(
 const variants = {
   default: twMerge("bg-blue-500 hover:bg-blue-600 border-blue-500"),
   outline: twMerge(
-    "bg-transparent hover:bg-blue-600 border-2 border-blue-500 text-blue-500 hover:text-white focus:text-white",
+    "bg-transparent hover:bg-blue-600 focus:bg-blue-500 border-2 border-blue-500 text-blue-500 hover:text-white focus:text-white",
   ),
   "white-outline": twMerge(
     "bg-transparent hover:bg-white border-2 border-white-500 text-white hover:text-blue-500 focus:text-blue-500",
@@ -36,11 +37,19 @@ export const Button = ({
   type = "button",
   variant = "default",
   size = "default",
+  className,
+  onClick,
 }: ButtonProps) => {
   return (
     <button
       type={type}
-      className={twMerge(defaultStyles, variants[variant], sizes[size])}
+      className={twMerge(
+        defaultStyles,
+        variants[variant],
+        sizes[size],
+        className,
+      )}
+      onClick={onClick}
     >
       {children}
     </button>

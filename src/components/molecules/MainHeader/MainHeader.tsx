@@ -1,5 +1,8 @@
+"use client";
+
 import { Button } from "@/components/atoms/Button/Button";
 import { Container } from "@/components/atoms/Container/Container";
+import { useUIContext } from "@/providers/UIProvider";
 import {
   FaMoneyCheck,
   FaMoneyCheckAlt,
@@ -8,6 +11,7 @@ import {
 } from "react-icons/fa";
 
 export const MainHeader = () => {
+  const { openAddExpenseModal, openAddBudgetModal } = useUIContext();
   return (
     <>
       <header className="md:fixed top-0 left-0 w-full h-16 bg-white flex flex-row shadow z-20">
@@ -18,11 +22,11 @@ export const MainHeader = () => {
           </p>
           <div className="flex flex-row gap-2">
             <div className="hidden md:flex flex-row gap-2">
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => openAddExpenseModal()}>
                 Nowy wydatek
                 <FaPlus />
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => openAddBudgetModal()}>
                 Nowy budżet
                 <FaMoneyCheck />
               </Button>
@@ -36,11 +40,17 @@ export const MainHeader = () => {
       <div className="fixed md:hidden left-0 bottom-0 w-full h-16 bg-blue-500 flex flex-row border-t-2 shadow z-20">
         <Container className="flex flex-row items-center justify-center">
           <div className="flex flex-row gap-2">
-            <Button variant="white-outline">
+            <Button
+              variant="white-outline"
+              onClick={() => openAddBudgetModal()}
+            >
               Nowy budżet
               <FaMoneyCheck />
             </Button>
-            <Button variant="white-outline">
+            <Button
+              variant="white-outline"
+              onClick={() => openAddExpenseModal()}
+            >
               Nowy wydatek
               <FaPlus />
             </Button>
