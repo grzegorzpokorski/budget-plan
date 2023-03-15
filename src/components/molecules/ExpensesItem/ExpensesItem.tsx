@@ -26,10 +26,6 @@ export const ExpensesItem = ({
       </div>
       <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
         <Button size="square">
-          <span className="sr-only">usuń</span>
-          <FaPlus className="rotate-45" />
-        </Button>
-        <Button size="square">
           <span className="sr-only">edytuj</span>
           <FaEdit />
         </Button>
