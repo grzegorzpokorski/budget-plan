@@ -22,7 +22,7 @@ export const ExpensesItem = ({
   budgetId,
   description,
 }: ExpensesItemProps) => {
-  const { openAddExpenseModal } = useUIContext();
+  const { openExpenseModal } = useUIContext();
 
   return (
     <li className="flex flex-row items-start justify-start gap-6 px-6 py-4 w-full">
@@ -39,7 +39,7 @@ export const ExpensesItem = ({
         <Button
           size="square"
           onClick={() =>
-            openAddExpenseModal({
+            openExpenseModal({
               id,
               title,
               amount,

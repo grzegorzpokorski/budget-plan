@@ -21,7 +21,7 @@ export const SummaryItem = ({
   max,
   current,
 }: Props) => {
-  const { openAddBudgetModal } = useUIContext();
+  const { openBudgetModal } = useUIContext();
 
   return (
     <Tag className="flex flex-row gap-4 pt-4">
@@ -38,7 +38,7 @@ export const SummaryItem = ({
       <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
         <Button
           size="square"
-          onClick={() => openAddBudgetModal({ id, name, max })}
+          onClick={() => openBudgetModal({ id, name, max })}
         >
           <span className="sr-only">edytuj</span>
           <FaEdit />

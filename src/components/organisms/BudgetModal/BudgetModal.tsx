@@ -8,7 +8,7 @@ import { addBudgetFormSchema } from "@/shemas/shemas";
 import { useUIContext } from "@/providers/UIProvider";
 import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
-import { Input } from "../../molecules/Input/Input";
+import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 
 type InputsType = z.infer<typeof addBudgetFormSchema>;
