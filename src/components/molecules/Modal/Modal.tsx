@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/atoms/Button/Button";
-import { Fragment, ReactNode, useCallback, useId } from "react";
+import { type ReactNode, useCallback, useId } from "react";
 import { FaPlus } from "react-icons/fa";
 import FocusLock from "react-focus-lock";
 import { useOnKeydown } from "@/hooks/useOnKeydown";
@@ -12,7 +12,7 @@ type Props = {
   readonly children: ReactNode;
 };
 
-export const BaseModal = ({ title, children, closeModal }: Props) => {
+export const Modal = ({ title, children, closeModal }: Props) => {
   const id = useId();
 
   useOnKeydown(

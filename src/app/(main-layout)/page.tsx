@@ -4,8 +4,8 @@ import { Container } from "@/components/atoms/Container/Container";
 import { Private } from "@/components/atoms/Private/Private";
 import { BudgetRealization } from "@/components/molecules/BudgetRealization/BudgetRealization";
 import { MainHeader } from "@/components/molecules/MainHeader/MainHeader";
-import { AddBudgetModal } from "@/components/organisms/AddBudgetModal/AddBudgetModal";
-import { AddExpenseModal } from "@/components/organisms/AddExpenseModal/AddExpenseModal";
+import { BudgetModal } from "@/components/organisms/BudgetModal/BudgetModal";
+import { ExpenseModal } from "@/components/organisms/ExpenseModal/ExpenseModal";
 import { Expenses } from "@/components/organisms/Expenses/Expenses";
 import { Summary } from "@/components/organisms/Summary/Summary";
 
@@ -18,8 +18,8 @@ export default function Home() {
         <Summary />
         <Expenses />
       </Container>
-      <AddExpenseModal />
-      <AddBudgetModal />
+      <ExpenseModal />
+      <BudgetModal />
     </Private>
   );
 }

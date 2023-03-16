@@ -25,12 +25,12 @@ type ExpenseModalData = {
 };
 
 type UIProviderValue = {
-  isAddExpenseModalOpen: boolean;
-  openAddExpenseModal: (modalData?: ExpenseModalData) => void;
-  closeAddExpenseModal: () => void;
-  isAddBudgetModalOpen: boolean;
-  openAddBudgetModal: (modalData?: BudgetModalData) => void;
-  closeAddBudgetModal: () => void;
+  isExpenseModalOpen: boolean;
+  openExpenseModal: (modalData?: ExpenseModalData) => void;
+  closeExpenseModal: () => void;
+  isBudgetModalOpen: boolean;
+  openBudgetModal: (modalData?: BudgetModalData) => void;
+  closeBudgetModal: () => void;
   expenseModalData: ExpenseModalData | null;
   budgetModalData: BudgetModalData | null;
 };
@@ -38,57 +38,57 @@ type UIProviderValue = {
 const UIContext = createContext<UIProviderValue | null>(null);
 
 export const UIProvider = ({ children }: { children: ReactNode }) => {
-  const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false);
-  const [isAddBudgetModalOpen, setIsAddBudgetModalOpen] = useState(false);
+  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
   const [expenseModalData, setExpenseModalData] =
     useState<ExpenseModalData | null>(null);
   const [budgetModalData, setBudgetModalData] =
     useState<BudgetModalData | null>(null);
 
-  const openAddExpenseModal = useCallback((modalData?: ExpenseModalData) => {
+  const openExpenseModal = useCallback((modalData?: ExpenseModalData) => {
     document.body.classList.add("overflow-hidden");
     if (modalData) setExpenseModalData(modalData);
-    setIsAddExpenseModalOpen(true);
+    setIsExpenseModalOpen(true);
   }, []);
 
-  const closeAddExpenseModal = useCallback(() => {
+  const closeExpenseModal = useCallback(() => {
     document.body.classList.remove("overflow-hidden");
-    setIsAddExpenseModalOpen(false);
+    setIsExpenseModalOpen(false);
     setExpenseModalData(null);
   }, []);
 
-  const openAddBudgetModal = useCallback((modalData?: BudgetModalData) => {
+  const openBudgetModal = useCallback((modalData?: BudgetModalData) => {
     document.body.classList.add("overflow-hidden");
     if (modalData) setBudgetModalData(modalData);
-    setIsAddBudgetModalOpen(true);
+    setIsBudgetModalOpen(true);
   }, []);
 
-  const closeAddBudgetModal = useCallback(() => {
+  const closeBudgetModal = useCallback(() => {
     document.body.classList.remove("overflow-hidden");
-    setIsAddBudgetModalOpen(false);
+    setIsBudgetModalOpen(false);
     setBudgetModalData(null);
   }, []);
 
   const value = useMemo(
     () => ({
-      isAddExpenseModalOpen,
-      openAddExpenseModal,
-      closeAddExpenseModal,
-      isAddBudgetModalOpen,
-      openAddBudgetModal,
-      closeAddBudgetModal,
+      isExpenseModalOpen,
+      openExpenseModal,
+      closeExpenseModal,
+      isBudgetModalOpen,
+      openBudgetModal,
+      closeBudgetModal,
       expenseModalData,
       budgetModalData,
     }),
     [
       budgetModalData,
-      closeAddBudgetModal,
-      closeAddExpenseModal,
+      closeBudgetModal,
+      closeExpenseModal,
       expenseModalData,
-      isAddBudgetModalOpen,
-      isAddExpenseModalOpen,
-      openAddBudgetModal,
-      openAddExpenseModal,
+      isBudgetModalOpen,
+      isExpenseModalOpen,
+      openBudgetModal,
+      openExpenseModal,
     ],
   );
 

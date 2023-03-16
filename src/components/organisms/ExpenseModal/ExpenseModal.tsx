@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUIContext } from "@/providers/UIProvider";
 import { addExpenseFormSchema } from "@/shemas/shemas";
-import { BaseModal } from "@/components/molecules/BaseModal/BaseModal";
+import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "../../molecules/Input/Input";
 import { Textarea } from "@/components/molecules/Textarea/Textarea";
@@ -14,8 +14,8 @@ import { Select } from "@/components/molecules/Select/Select";
 
 type InputsType = z.infer<typeof addExpenseFormSchema>;
 
-export const AddExpenseModal = () => {
-  const { isAddExpenseModalOpen, closeAddExpenseModal, expenseModalData } =
+export const ExpenseModal = () => {
+  const { isExpenseModalOpen, closeExpenseModal, expenseModalData } =
     useUIContext();
 
   const {
@@ -32,12 +32,12 @@ export const AddExpenseModal = () => {
     reset();
   };
 
-  if (!isAddExpenseModalOpen) return null;
+  if (!isExpenseModalOpen) return null;
   return (
-    <BaseModal
+    <Modal
       title={expenseModalData ? "Edytuj wydatek" : "Dodaj wydatek"}
       closeModal={() => {
-        closeAddExpenseModal();
+        closeExpenseModal();
         reset();
       }}
     >
@@ -117,6 +117,6 @@ export const AddExpenseModal = () => {
           error={true}
         /> */}
       </form>
-    </BaseModal>
+    </Modal>
   );
 };

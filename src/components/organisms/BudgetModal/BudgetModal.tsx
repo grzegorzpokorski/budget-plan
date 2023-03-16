@@ -6,15 +6,15 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addBudgetFormSchema } from "@/shemas/shemas";
 import { useUIContext } from "@/providers/UIProvider";
-import { BaseModal } from "@/components/molecules/BaseModal/BaseModal";
+import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "../../molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 
 type InputsType = z.infer<typeof addBudgetFormSchema>;
 
-export const AddBudgetModal = () => {
-  const { isAddBudgetModalOpen, closeAddBudgetModal, budgetModalData } =
+export const BudgetModal = () => {
+  const { isBudgetModalOpen, closeBudgetModal, budgetModalData } =
     useUIContext();
 
   const {
@@ -31,13 +31,13 @@ export const AddBudgetModal = () => {
     reset();
   };
 
-  if (!isAddBudgetModalOpen) return null;
+  if (!isBudgetModalOpen) return null;
 
   return (
-    <BaseModal
+    <Modal
       title={budgetModalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
       closeModal={() => {
-        closeAddBudgetModal();
+        closeBudgetModal();
         reset();
       }}
     >
@@ -86,6 +86,6 @@ export const AddBudgetModal = () => {
           textCenter
         /> */}
       </form>
-    </BaseModal>
+    </Modal>
   );
 };
