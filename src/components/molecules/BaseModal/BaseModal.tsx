@@ -18,7 +18,7 @@ export const BaseModal = ({ title, children, closeModal }: Props) => {
       id={id}
       role="dialog"
       className="fixed top-0 left-0 h-full w-full p-3 z-50 overflow-y-auto bg-black/60 animate-[opacity_.15s_ease-in-out]"
-      onClick={() => closeModal()}
+      onClick={closeModal}
       aria-modal
       aria-labelledby={`${id}-title`}
     >
@@ -31,11 +31,7 @@ export const BaseModal = ({ title, children, closeModal }: Props) => {
             <h2 id={`${id}-title`} className="font-bold text-lg mt-1">
               {title}
             </h2>
-            <Button
-              size="square"
-              className="self-start"
-              onClick={() => closeModal()}
-            >
+            <Button size="square" className="self-start" onClick={closeModal}>
               <span className="sr-only">zamnij modal</span>
               <FaPlus className="rotate-45" />
             </Button>

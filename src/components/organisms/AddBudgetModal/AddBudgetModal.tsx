@@ -4,41 +4,43 @@
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BaseModal } from "@/components/molecules/BaseModal/BaseModal";
+import { addBudgetFormSchema } from "@/shemas/shemas";
 import { useUIContext } from "@/providers/UIProvider";
+import { BaseModal } from "@/components/molecules/BaseModal/BaseModal";
 import { Button } from "@/components/atoms/Button/Button";
-import { Input } from "../Input/Input";
+import { Input } from "../../molecules/Input/Input";
+import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 
-const inputsSchema = z.object({
-  name: z.string().min(3, {
-    message: "Nazwa budżetu musi składać się z co najmniej 3 znaków.",
-  }),
-  maxAmount: z.coerce.number().positive({
-    message: "Docelowa wartość budżetu musi być większa od 0.",
-  }),
-});
-
-type InputsType = z.infer<typeof inputsSchema>;
+type InputsType = z.infer<typeof addBudgetFormSchema>;
 
 export const AddBudgetModal = () => {
   const { isAddBudgetModalOpen, closeAddBudgetModal } = useUIContext();
+
   const {
     reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<InputsType>({
-    resolver: zodResolver(inputsSchema),
+    resolver: zodResolver(addBudgetFormSchema),
   });
+
   const onSubmit: SubmitHandler<InputsType> = (data) => {
     console.log(data);
     reset();
   };
 
   if (!isAddBudgetModalOpen) return null;
+
   return (
-    <BaseModal title="Dodaj nowy budżet" closeModal={closeAddBudgetModal}>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col py-6">
+    <BaseModal
+      title="Dodaj nowy budżet"
+      closeModal={() => {
+        closeAddBudgetModal();
+        reset();
+      }}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
         <div className="w-full">
           <Input
             type="text"
@@ -69,6 +71,11 @@ export const AddBudgetModal = () => {
             Dodaj
           </Button>
         </div>
+        {/* <FormInfo
+          content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
+          error={true}
+          textCenter
+        /> */}
       </form>
     </BaseModal>
   );
