@@ -16,10 +16,10 @@ export const MainHeader = () => {
     <>
       <header className="md:fixed top-0 left-0 w-full h-16 bg-white flex flex-row shadow z-20">
         <Container className="flex flex-row items-center justify-between">
-          <p className="font-bold flex flex-row items-center">
+          <h1 className="font-bold flex flex-row items-center">
             <FaMoneyCheckAlt className="text-2xl mr-2" />
             Budget<span className="font-normal">Plan</span>
-          </p>
+          </h1>
           <div className="flex flex-row gap-2">
             <div className="hidden md:flex flex-row gap-2">
               <Button variant="outline" onClick={() => openAddExpenseModal()}>
