@@ -3,27 +3,35 @@ import { ExpensesItem } from "../../molecules/ExpensesItem/ExpensesItem";
 const dummy = [
   {
     id: 0,
+    title: "Nowe piżamy",
     amount: 79,
-    description: "Nowe piżamy",
     budgetName: "Odzież",
+    budgetId: 2,
+    description: "dfgdfg sfgsfg",
   },
   {
     id: 1,
+    title: "Ubezpieczenie samochodu",
     amount: 333,
-    description: "Ubezpieczenie samochodu",
-    budgetName: "Wydatki samochód",
+    budgetName: "Transport",
+    budgetId: 1,
+    description: "sdf eeee",
   },
   {
     id: 2,
+    title: "Zapupy spożywcze",
     amount: 250,
-    description: "Zapupy spożywcze",
     budgetName: "Jedzenie",
+    budgetId: 2,
+    description: " 856 85 ",
   },
   {
     id: 3,
+    title: "Torba gucci",
     amount: 96500.56,
-    description: "Nowy laptop",
-    budgetName: "Sprzęty",
+    budgetName: "Odzież",
+    budgetId: 3,
+    description: "ewr kg",
   },
 ];
 

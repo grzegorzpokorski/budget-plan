@@ -1,18 +1,29 @@
+"use client";
+
 import { Button } from "@/components/atoms/Button/Button";
+import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { FaEdit, FaPlus } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 
 type ExpensesItemProps = {
+  id: number;
+  title: string;
   amount: number;
-  description: string;
   budgetName: string;
+  budgetId: number;
+  description: string;
 };
 
 export const ExpensesItem = ({
+  id,
+  title,
   amount,
-  description,
   budgetName,
+  budgetId,
+  description,
 }: ExpensesItemProps) => {
+  const { openAddExpenseModal } = useUIContext();
+
   return (
     <li className="flex flex-row items-start justify-start gap-6 px-6 py-4 w-full">
       <div className="flex flex-col gap-1 md:gap-4 md:flex-row md:items-center">
@@ -20,12 +31,24 @@ export const ExpensesItem = ({
           -{formatCurrency(amount)}
         </div>
         <div className="flex flex-col text-sm mt-1">
-          <h3 className="font-bold">{description}</h3>
+          <h3 className="font-bold">{title}</h3>
           <p className="mt-1 text-sm text-gray-500">{budgetName}</p>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
-        <Button size="square">
+        <Button
+          size="square"
+          onClick={() =>
+            openAddExpenseModal({
+              id,
+              title,
+              amount,
+              budgetName,
+              budgetId,
+              description,
+            })
+          }
+        >
           <span className="sr-only">edytuj</span>
           <FaEdit />
         </Button>

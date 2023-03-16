@@ -14,7 +14,8 @@ import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 type InputsType = z.infer<typeof addBudgetFormSchema>;
 
 export const AddBudgetModal = () => {
-  const { isAddBudgetModalOpen, closeAddBudgetModal } = useUIContext();
+  const { isAddBudgetModalOpen, closeAddBudgetModal, budgetModalData } =
+    useUIContext();
 
   const {
     reset,
@@ -49,6 +50,7 @@ export const AddBudgetModal = () => {
             isError={Boolean(errors.name)}
             errormessage={errors.name?.message || ""}
             required
+            defaultValue={budgetModalData?.name}
           />
         </div>
         <div className="w-full">
@@ -61,14 +63,21 @@ export const AddBudgetModal = () => {
             required
             step={0.01}
             min={0.01}
+            defaultValue={budgetModalData?.max}
           />
         </div>
         <div className="flex flex-row gap-2 justify-end">
-          <Button type="reset" variant="outline" className="w-full">
-            Reset
-          </Button>
+          {budgetModalData ? (
+            <Button type="button" variant="outline" className="w-full">
+              Usuń
+            </Button>
+          ) : (
+            <Button type="reset" variant="outline" className="w-full">
+              Reset
+            </Button>
+          )}
           <Button type="submit" className="w-full">
-            Dodaj
+            {budgetModalData ? "Aktualizuj" : "Dodaj"}
           </Button>
         </div>
         {/* <FormInfo

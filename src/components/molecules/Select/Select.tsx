@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 type Option = {
   label: string;
-  value: string;
+  value: number;
 };
 
 type Props = {

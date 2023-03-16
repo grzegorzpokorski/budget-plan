@@ -15,7 +15,8 @@ import { Select } from "@/components/molecules/Select/Select";
 type InputsType = z.infer<typeof addExpenseFormSchema>;
 
 export const AddExpenseModal = () => {
-  const { isAddExpenseModalOpen, closeAddExpenseModal } = useUIContext();
+  const { isAddExpenseModalOpen, closeAddExpenseModal, expenseModalData } =
+    useUIContext();
 
   const {
     reset,
@@ -32,9 +33,14 @@ export const AddExpenseModal = () => {
   };
 
   if (!isAddExpenseModalOpen) return null;
-
   return (
-    <BaseModal title="Dodaj wydatek" closeModal={closeAddExpenseModal}>
+    <BaseModal
+      title="Dodaj wydatek"
+      closeModal={() => {
+        closeAddExpenseModal();
+        reset();
+      }}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
         <div className="w-full">
           <Input
@@ -44,6 +50,7 @@ export const AddExpenseModal = () => {
             isError={Boolean(errors.title)}
             errormessage={errors.title?.message || ""}
             required
+            defaultValue={expenseModalData?.title}
           />
         </div>
         <div className="w-full">
@@ -56,6 +63,7 @@ export const AddExpenseModal = () => {
             required
             step={0.01}
             min={0.01}
+            defaultValue={expenseModalData?.amount}
           />
         </div>
         <div className="w-full">
@@ -64,17 +72,18 @@ export const AddExpenseModal = () => {
             {...register("budgetId")}
             isError={Boolean(errors.budgetId)}
             errormessage={errors.budgetId?.message || ""}
+            defaultValue={expenseModalData?.budgetId}
             options={[
               {
-                value: "sd",
+                value: 1,
                 label: "Transport",
               },
               {
-                value: "dfg",
+                value: 2,
                 label: "Jedzenie",
               },
               {
-                value: "sderthy",
+                value: 3,
                 label: "Odzież",
               },
             ]}
@@ -86,14 +95,21 @@ export const AddExpenseModal = () => {
             {...register("description")}
             isError={Boolean(errors.description)}
             errormessage={errors.description?.message || ""}
+            defaultValue={expenseModalData?.description}
           />
         </div>
         <div className="flex flex-row gap-2 justify-end">
-          <Button type="reset" variant="outline" className="w-full">
-            Reset
-          </Button>
+          {expenseModalData ? (
+            <Button type="button" variant="outline" className="w-full">
+              Usuń
+            </Button>
+          ) : (
+            <Button type="reset" variant="outline" className="w-full">
+              Reset
+            </Button>
+          )}
           <Button type="submit" className="w-full">
-            Dodaj
+            {expenseModalData ? "Aktualizuj" : "Dodaj"}
           </Button>
         </div>
         {/* <FormInfo
