@@ -14,8 +14,6 @@ export const addExpenseFormSchema = z.object({
   amount: z.coerce.number().positive({
     message: "Wartość wydatku musi być większa od 0.",
   }),
-  budget: z.string().min(3, {
-    message: "Nazwa budżetu musi składać się z co najmniej 3 znaków.",
-  }),
+  budgetId: z.string().nonempty({ message: "Wybierz budżet" }),
   description: z.string(),
 });

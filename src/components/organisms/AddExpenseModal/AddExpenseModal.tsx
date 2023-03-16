@@ -10,6 +10,7 @@ import { BaseModal } from "@/components/molecules/BaseModal/BaseModal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "../../molecules/Input/Input";
 import { Textarea } from "@/components/molecules/Textarea/Textarea";
+import { Select } from "@/components/molecules/Select/Select";
 
 type InputsType = z.infer<typeof addExpenseFormSchema>;
 
@@ -58,15 +59,25 @@ export const AddExpenseModal = () => {
           />
         </div>
         <div className="w-full">
-          <Input
-            type="text"
+          <Select
             label="Wybierz budżet"
-            {...register("budget")}
-            isError={Boolean(errors.budget)}
-            errormessage={errors.budget?.message || ""}
-            required
-            step={0.01}
-            min={0.01}
+            {...register("budgetId")}
+            isError={Boolean(errors.budgetId)}
+            errormessage={errors.budgetId?.message || ""}
+            options={[
+              {
+                value: "sd",
+                label: "Transport",
+              },
+              {
+                value: "dfg",
+                label: "Jedzenie",
+              },
+              {
+                value: "sderthy",
+                label: "Odzież",
+              },
+            ]}
           />
         </div>
         <div className="w-full">
