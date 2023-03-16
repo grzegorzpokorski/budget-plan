@@ -35,7 +35,7 @@ export const AddExpenseModal = () => {
   if (!isAddExpenseModalOpen) return null;
   return (
     <BaseModal
-      title="Dodaj wydatek"
+      title={expenseModalData ? "Edytuj wydatek" : "Dodaj wydatek"}
       closeModal={() => {
         closeAddExpenseModal();
         reset();

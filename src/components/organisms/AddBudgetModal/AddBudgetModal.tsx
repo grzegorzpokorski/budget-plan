@@ -35,7 +35,7 @@ export const AddBudgetModal = () => {
 
   return (
     <BaseModal
-      title="Dodaj nowy budżet"
+      title={budgetModalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
       closeModal={() => {
         closeAddBudgetModal();
         reset();
