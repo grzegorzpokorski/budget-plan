@@ -3,6 +3,7 @@
 import { Button } from "@/components/atoms/Button/Button";
 import { Container } from "@/components/atoms/Container/Container";
 import { useUIContext } from "@/providers/UIProvider";
+import { signOut } from "next-auth/react";
 import {
   FaMoneyCheck,
   FaMoneyCheckAlt,
@@ -31,7 +32,7 @@ export const MainHeader = () => {
                 <FaMoneyCheck />
               </Button>
             </div>
-            <Button>
+            <Button onClick={() => void signOut({ callbackUrl: "/login" })}>
               Wyloguj <FaPowerOff />
             </Button>
           </div>

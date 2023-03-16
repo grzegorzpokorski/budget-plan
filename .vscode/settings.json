@@ -1,5 +1,8 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "prettier.configPath": ".prettierrc.json"
+  "prettier.configPath": ".prettierrc.json",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

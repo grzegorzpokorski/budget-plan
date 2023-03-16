@@ -38,6 +38,7 @@ export const Button = ({
   variant = "default",
   size = "default",
   className,
+  disabled,
   onClick,
 }: ButtonProps) => {
   return (
@@ -50,6 +51,7 @@ export const Button = ({
         className,
       )}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
