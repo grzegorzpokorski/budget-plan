@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/atoms/Button/Button";
-import { ReactNode, useId } from "react";
+import { Fragment, ReactNode, useCallback, useId } from "react";
 import { FaPlus } from "react-icons/fa";
+import FocusLock from "react-focus-lock";
+import { useOnKeydown } from "@/hooks/useOnKeydown";
 
 type Props = {
   title: string;
@@ -13,6 +15,11 @@ type Props = {
 export const BaseModal = ({ title, children, closeModal }: Props) => {
   const id = useId();
 
+  useOnKeydown(
+    "Escape",
+    useCallback(() => closeModal(), [closeModal]),
+  );
+
   return (
     <div
       id={id}
@@ -22,7 +29,10 @@ export const BaseModal = ({ title, children, closeModal }: Props) => {
       aria-modal
       aria-labelledby={`${id}-title`}
     >
-      <div className="m-auto flex min-h-full w-full items-center">
+      <FocusLock
+        as="div"
+        className="m-auto flex min-h-full w-full items-center"
+      >
         <div
           className="relative flex flex-col p-6 mx-auto max-w-xl w-full bg-white rounded-md overflow-auto shadow-lg animate-[scale_.15s_ease-in-out]"
           onClick={(e) => e.stopPropagation()}
@@ -38,7 +48,7 @@ export const BaseModal = ({ title, children, closeModal }: Props) => {
           </div>
           {children}
         </div>
-      </div>
+      </FocusLock>
     </div>
   );
 };
