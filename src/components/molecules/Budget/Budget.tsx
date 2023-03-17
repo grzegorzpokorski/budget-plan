@@ -14,13 +14,7 @@ type Props = {
   as?: "li" | "div";
 };
 
-export const SummaryItem = ({
-  as: Tag = "li",
-  id,
-  name,
-  max,
-  current,
-}: Props) => {
+export const Budget = ({ as: Tag = "li", id, name, max, current }: Props) => {
   const { openBudgetModal } = useUIContext();
 
   return (

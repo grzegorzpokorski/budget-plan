@@ -1,4 +1,4 @@
-import { SummaryItem } from "@/components/molecules/SummaryItem/SummaryItem";
+import { Budget } from "@/components/molecules/Budget/Budget";
 
 const dummy = [
   {
@@ -21,14 +21,14 @@ const dummy = [
   },
 ];
 
-export const Summary = () => {
+export const Budgets = () => {
   return (
     <ul
       className="list-none flex flex-col gap-4 bg-white divide-y-2 p-6 pt-2 shadow rounded"
       role="list"
     >
       {dummy.map((item) => (
-        <SummaryItem key={item.id} {...item} />
+        <Budget key={item.id} {...item} />
       ))}
     </ul>
   );

@@ -7,7 +7,7 @@ import { MainHeader } from "@/components/molecules/MainHeader/MainHeader";
 import { BudgetModal } from "@/components/organisms/BudgetModal/BudgetModal";
 import { ExpenseModal } from "@/components/organisms/ExpenseModal/ExpenseModal";
 import { Expenses } from "@/components/organisms/Expenses/Expenses";
-import { Summary } from "@/components/organisms/Summary/Summary";
+import { Budgets } from "@/components/organisms/Budgets/Budgets";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
       <MainHeader />
       <Container className="flex flex-col gap-8 py-8">
         <BudgetRealization current={2300} max={3550} name="Realizacja" />
-        <Summary />
+        <Budgets />
         <Expenses />
       </Container>
       <ExpenseModal />
