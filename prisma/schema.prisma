@@ -44,6 +44,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Budget        Budget[]
+  Expense       Expense[]
 }
 
 model VerificationToken {
@@ -52,4 +54,28 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Budget {
+  id        Int       @id @default(autoincrement())
+  name      String
+  maxAmount Float
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  Expense   Expense[]
+  createdAt DateTime  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime  @updatedAt() @db.Timestamptz(6)
+}
+
+model Expense {
+  id          Int      @id @default(autoincrement())
+  title       String
+  amount      Float
+  budget      Budget   @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  budgetId    Int
+  description String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt() @db.Timestamptz(6)
 }
