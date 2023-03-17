@@ -19,7 +19,7 @@ export const GET = async (request: Request) => {
 
   return new Response(
     JSON.stringify({
-      data: { budgets },
+      budgets,
     }),
     {
       status: 200,
