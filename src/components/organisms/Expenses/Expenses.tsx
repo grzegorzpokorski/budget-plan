@@ -8,6 +8,7 @@ const dummy = [
     budgetName: "Odzież",
     budgetId: 2,
     description: "dfgdfg sfgsfg",
+    createdAt: "2023-03-17T19:41:23.117Z",
   },
   {
     id: 1,
@@ -16,6 +17,7 @@ const dummy = [
     budgetName: "Transport",
     budgetId: 1,
     description: "sdf eeee",
+    createdAt: "2023-03-17T19:41:23.117Z",
   },
   {
     id: 2,
@@ -24,6 +26,7 @@ const dummy = [
     budgetName: "Jedzenie",
     budgetId: 2,
     description: " 856 85 ",
+    createdAt: "2023-03-12T19:41:23.117Z",
   },
   {
     id: 3,
@@ -32,18 +35,26 @@ const dummy = [
     budgetName: "Odzież",
     budgetId: 3,
     description: "ewr kg",
+    createdAt: "2023-03-10T19:41:23.117Z",
   },
 ];
 
 export const Expenses = () => {
   return (
-    <ul
-      className="list-none flex flex-col bg-white divide-y-2 shadow rounded"
-      role="list"
-    >
-      {dummy.map((item) => (
-        <ExpensesItem key={item.id} {...item} />
-      ))}
+    <ul className="list-none flex flex-col divide-y-2 rounded" role="list">
+      {dummy.map((item, idx, arr) => {
+        const current = new Date(item.createdAt).toDateString();
+        const next =
+          arr[idx - 1] !== undefined &&
+          new Date(arr[idx - 1].createdAt).toDateString();
+        return (
+          <ExpensesItem
+            key={item.id}
+            {...item}
+            displayDate={current !== next}
+          />
+        );
+      })}
     </ul>
   );
 };
