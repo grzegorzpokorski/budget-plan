@@ -4,9 +4,11 @@ import { getServerSession } from "next-auth/next";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
-const newBudgetSchema = z.object({
-  name: z.string(),
-  maxAmount: z.coerce.number(),
+const newExpenseSchema = z.object({
+  title: z.string(),
+  amount: z.coerce.number(),
+  budgetId: z.coerce.number().int(),
+  description: z.string(),
 });
 
 export const POST = async (request: NextRequest) => {
@@ -18,7 +20,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const requestBody = newBudgetSchema.safeParse(await request.json());
+  const requestBody = newExpenseSchema.safeParse(await request.json());
   if (!requestBody.success) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
@@ -26,40 +28,31 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const alreadyExists = await prisma.budget.findFirst({
-    where: {
-      name: requestBody.data.name,
-    },
-  });
-
-  if (alreadyExists) {
-    return new Response(
-      JSON.stringify({
-        statusCode: 409,
-        error: "Budget with given name already exists",
-      }),
-      {
-        status: 409,
-      },
-    );
-  }
-
-  const createBudget = await prisma.budget.create({
+  const createExpense = await prisma.expense.create({
     data: {
-      name: requestBody.data.name,
-      maxAmount: requestBody.data.maxAmount,
+      title: requestBody.data.title,
+      amount: requestBody.data.amount,
+      description: requestBody.data.description,
+      budgetId: requestBody.data.budgetId,
       userId: session.user.id,
     },
+    include: {
+      budget: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
-  if (!createBudget) {
+  if (!createExpense) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
       { status: 400 },
     );
   }
 
-  return new Response(JSON.stringify({ budget: createBudget }), {
+  return new Response(JSON.stringify({ expense: createExpense }), {
     status: 201,
   });
 };

@@ -15,6 +15,13 @@ export const GET = async (request: Request) => {
     where: {
       userId: session.user.id,
     },
+    include: {
+      budget: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
   return new Response(

@@ -26,38 +26,30 @@ export const GET = async (
     );
   }
 
-  const budget = await prisma.budget.findUnique({
+  const expense = await prisma.expense.findFirst({
     where: {
       id: requestedId.data,
+      userId: session.user.id,
+    },
+    include: {
+      budget: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 
-  if (!budget) {
+  if (!expense) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  const sumOfExpenses = await prisma.expense.aggregate({
-    where: {
-      userId: session.user.id,
-      budgetId: budget.id,
-    },
-    _sum: {
-      amount: true,
-    },
+  return new Response(JSON.stringify({ expense }), {
+    status: 200,
   });
-
-  return new Response(
-    JSON.stringify({
-      budget: {
-        ...budget,
-        sumOfExpenses: sumOfExpenses._sum.amount || 0,
-      },
-    }),
-    { status: 200 },
-  );
 };
 
 export const DELETE = async (
@@ -72,7 +64,7 @@ export const DELETE = async (
     );
   }
 
-  const requestedId = requestedIdSchema.safeParse(parseInt(context.params.id));
+  const requestedId = requestedIdSchema.safeParse(context.params.id);
   if (!requestedId.success) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
@@ -80,27 +72,50 @@ export const DELETE = async (
     );
   }
 
-  const deletedBudget = await prisma.budget.delete({
+  const sessionUserHaveThisExpense = await prisma.expense.findFirst({
     where: {
       id: requestedId.data,
+      userId: session.user.id,
     },
   });
 
-  if (!deletedBudget) {
+  if (!sessionUserHaveThisExpense) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  return new Response(JSON.stringify({ budget: deletedBudget }), {
+  const deletedExpense = await prisma.expense.delete({
+    where: {
+      id: requestedId.data,
+    },
+    include: {
+      budget: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!deletedExpense) {
+    return new Response(
+      JSON.stringify({ statusCode: 404, error: "Not found" }),
+      { status: 404 },
+    );
+  }
+
+  return new Response(JSON.stringify({ expense: deletedExpense }), {
     status: 200,
   });
 };
 
-const patchBudgetSchemaBody = z.object({
-  name: z.string(),
-  maxAmount: z.coerce.number(),
+const patchExpenseSchemaBody = z.object({
+  title: z.string(),
+  amount: z.coerce.number(),
+  budgetId: z.coerce.number().int(),
+  description: z.string(),
 });
 
 export const PATCH = async (
@@ -115,8 +130,8 @@ export const PATCH = async (
     );
   }
 
-  const requestedId = requestedIdSchema.safeParse(context.params.id);
-  const requestBody = patchBudgetSchemaBody.safeParse(await request.json());
+  const requestedId = requestedIdSchema.safeParse(parseInt(context.params.id));
+  const requestBody = patchExpenseSchemaBody.safeParse(await request.json());
 
   if (!requestedId.success || !requestBody.success) {
     return new Response(
@@ -125,21 +140,42 @@ export const PATCH = async (
     );
   }
 
-  const updatedBudget = await prisma.budget.update({
+  const sessionUserHaveThisExpense = await prisma.expense.findFirst({
+    where: {
+      id: requestedId.data,
+      userId: session.user.id,
+    },
+  });
+
+  if (!sessionUserHaveThisExpense) {
+    return new Response(
+      JSON.stringify({ statusCode: 404, error: "Not found" }),
+      { status: 404 },
+    );
+  }
+
+  const updatedExpense = await prisma.expense.update({
     where: {
       id: requestedId.data,
     },
     data: requestBody.data,
+    include: {
+      budget: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
-  if (!updatedBudget) {
+  if (!updatedExpense) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
       { status: 400 },
     );
   }
 
-  return new Response(JSON.stringify({ budget: updatedBudget }), {
+  return new Response(JSON.stringify({ expense: updatedExpense }), {
     status: 200,
   });
 };
