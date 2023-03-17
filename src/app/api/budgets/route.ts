@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
 
@@ -10,10 +11,15 @@ export const GET = async (request: Request) => {
     );
   }
 
+  const budgets = await prisma.budget.findMany({
+    where: {
+      userId: session.user.id,
+    },
+  });
+
   return new Response(
     JSON.stringify({
-      data: { budgets: [] },
-      meta: { user: session.user },
+      data: { budgets },
     }),
     {
       status: 200,
