@@ -5,6 +5,7 @@ import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { formatDate } from "@/utils/formatDate";
 import { FaEdit } from "react-icons/fa";
+import { twMerge } from "tailwind-merge";
 
 type ExpensesItemProps = {
   id: number;
@@ -34,12 +35,16 @@ export const ExpensesItem = ({
       {displayDate && (
         <time
           dateTime={createdAt}
-          className="w-full border-b-2 my-3 mx-6 text-xs text-gray-500 capitalize"
+          className="w-full border-b-2 py-3 px-6 text-xs text-gray-500 capitalize text-center md:text-start"
         >
           {formatDate(createdAt)}
         </time>
       )}
-      <article className="flex flex-row items-start justify-start gap-6 w-full px-6 py-4 bg-white shadow">
+      <article
+        className={twMerge(
+          "flex flex-row items-start justify-start gap-6 w-full px-6 py-4 bg-white shadow rounded",
+        )}
+      >
         <div className="flex flex-col gap-1 md:gap-4 md:flex-row md:items-center">
           <div className="font-medium text-red-500 mt-1.5 min-w-[105px]">
             -{formatCurrency(amount)}
