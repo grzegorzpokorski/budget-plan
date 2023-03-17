@@ -39,9 +39,27 @@ export const GET = async (
     );
   }
 
-  return new Response(JSON.stringify({ budget: budget }), {
-    status: 200,
+  const sumOfExpenses = await prisma.expense.aggregate({
+    where: {
+      userId: session.user.id,
+      budgetId: budget.id,
+    },
+    _sum: {
+      amount: true,
+    },
   });
+
+  return new Response(
+    JSON.stringify({
+      budget: {
+        ...budget,
+        sumOfExpenses: sumOfExpenses._sum.amount || 0,
+      },
+    }),
+    {
+      status: 200,
+    },
+  );
 };
 
 export const DELETE = async (
