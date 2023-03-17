@@ -22,6 +22,9 @@ export const GET = async (request: Request) => {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return new Response(

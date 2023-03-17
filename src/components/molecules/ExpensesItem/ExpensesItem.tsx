@@ -3,6 +3,7 @@
 import { Button } from "@/components/atoms/Button/Button";
 import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { formatDate } from "@/utils/formatDate";
 import { FaEdit } from "react-icons/fa";
 
 type ExpensesItemProps = {
@@ -33,9 +34,9 @@ export const ExpensesItem = ({
       {displayDate && (
         <time
           dateTime={createdAt}
-          className="w-full border-b-2 my-3 mx-6 text-xs text-gray-500"
+          className="w-full border-b-2 my-3 mx-6 text-xs text-gray-500 capitalize"
         >
-          {new Date(createdAt).toDateString()}
+          {formatDate(createdAt)}
         </time>
       )}
       <article className="flex flex-row items-start justify-start gap-6 w-full px-6 py-4 bg-white shadow">

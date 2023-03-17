@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils/formatDate";
 import { ExpensesItem } from "../../molecules/ExpensesItem/ExpensesItem";
 
 const dummy = [
@@ -43,15 +44,15 @@ export const Expenses = () => {
   return (
     <ul className="list-none flex flex-col divide-y-2 rounded" role="list">
       {dummy.map((item, idx, arr) => {
-        const current = new Date(item.createdAt).toDateString();
-        const next =
-          arr[idx - 1] !== undefined &&
-          new Date(arr[idx - 1].createdAt).toDateString();
+        const currentDate = formatDate(item.createdAt);
+        const nextDate =
+          arr[idx - 1] !== undefined && formatDate(arr[idx - 1].createdAt);
+
         return (
           <ExpensesItem
             key={item.id}
             {...item}
-            displayDate={current !== next}
+            displayDate={currentDate !== nextDate}
           />
         );
       })}
