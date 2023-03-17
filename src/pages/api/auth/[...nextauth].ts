@@ -9,13 +9,13 @@ if (!process.env.GITHUB_SECRET) throw new Error("Missed GITHUB_SECRET");
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt({ token, account, user }) {
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = user?.id;
-      }
-      return token;
-    },
+    // jwt({ token, account, user }) {
+    //   if (account) {
+    //     token.accessToken = account.access_token;
+    //     token.id = user?.id;
+    //   }
+    //   return token;
+    // },
     session({ session, user }) {
       session.user.id = user.id;
       return session;
