@@ -31,15 +31,16 @@ export const ExpensesItem = ({
   const { openExpenseModal } = useUIContext();
 
   return (
-    <li className="flex flex-col items-start justify-start w-full">
-      {displayDate && (
-        <time
-          dateTime={createdAt}
-          className="w-full border-b-2 py-3 px-6 text-xs text-gray-500 capitalize text-center md:text-start"
-        >
-          {formatDate(createdAt)}
-        </time>
-      )}
+    <li className="flex flex-col items-center md:items-start justify-start w-full">
+      <time
+        dateTime={createdAt}
+        className={twMerge(
+          "border-b-2 py-3 px-6 text-xs text-gray-500 capitalize",
+          !displayDate && "sr-only",
+        )}
+      >
+        {formatDate(createdAt)}
+      </time>
       <article
         className={twMerge(
           "flex flex-row items-start justify-start gap-6 w-full px-6 py-4 bg-white shadow rounded",
