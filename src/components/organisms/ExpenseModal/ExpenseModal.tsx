@@ -10,8 +10,8 @@ import { Input } from "../../molecules/Input/Input";
 import { Textarea } from "@/components/molecules/Textarea/Textarea";
 import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
-import { useDeleteExpense } from "@/hooks/useDeteteExpense";
 import { useExpenseModal } from "@/hooks/useExpenseModal";
+import { useGetBudgets } from "@/hooks/useGetBudgets";
 
 type InputsType = z.infer<typeof expenseFormSchema>;
 
@@ -34,6 +34,8 @@ export const ExpenseModal = () => {
   } = useForm<InputsType>({
     resolver: zodResolver(expenseFormSchema),
   });
+
+  const budgets = useGetBudgets();
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
     if (modalData) {
@@ -82,29 +84,21 @@ export const ExpenseModal = () => {
               defaultValue={modalData?.amount}
             />
           </div>
-          <div className="w-full">
-            <Select
-              label="Wybierz budżet"
-              {...register("budgetId")}
-              isError={Boolean(errors.budgetId)}
-              errormessage={errors.budgetId?.message || ""}
-              defaultValue={modalData?.budgetId}
-              options={[
-                {
-                  value: 1,
-                  label: "Transport",
-                },
-                {
-                  value: 2,
-                  label: "Jedzenie",
-                },
-                {
-                  value: 3,
-                  label: "Odzież",
-                },
-              ]}
-            />
-          </div>
+          {budgets.data?.budgets && (
+            <div className="w-full">
+              <Select
+                label="Wybierz budżet"
+                {...register("budgetId")}
+                isError={Boolean(errors.budgetId)}
+                errormessage={errors.budgetId?.message || ""}
+                defaultValue={modalData?.budgetId}
+                options={budgets.data?.budgets.map((option) => ({
+                  label: option.name,
+                  value: option.id,
+                }))}
+              />
+            </div>
+          )}
           <div className="w-full">
             <Textarea
               label="Dodatkowe informacje"

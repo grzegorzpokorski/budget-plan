@@ -1,27 +1,6 @@
 import { Budget } from "@/components/molecules/Budget/Budget";
 import { useGetBudgets } from "@/hooks/useGetBudgets";
 
-const dummy = [
-  {
-    id: 0,
-    name: "Transport",
-    max: 500,
-    current: 160,
-  },
-  {
-    id: 1,
-    name: "Jedzenie",
-    max: 1000,
-    current: 1200,
-  },
-  {
-    id: 2,
-    name: "Odzież",
-    max: 200,
-    current: 79,
-  },
-];
-
 export const Budgets = () => {
   const { data, isSuccess, isError } = useGetBudgets();
 
