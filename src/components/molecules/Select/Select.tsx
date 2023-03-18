@@ -44,6 +44,7 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
           aria-describedby={isError ? `${id}-hint` : undefined}
           {...rest}
         >
+          {!rest.defaultValue && <option value="">-</option>}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
