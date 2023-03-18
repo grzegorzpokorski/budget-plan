@@ -106,12 +106,12 @@ export const DELETE = async (
     );
   }
 
-  return new Response(JSON.stringify({ expense: deletedExpense }), {
+  return new Response(JSON.stringify({ ...deletedExpense }), {
     status: 200,
   });
 };
 
-const patchExpenseSchemaBody = z.object({
+export const patchExpenseSchemaBody = z.object({
   title: z.string(),
   amount: z.coerce.number(),
   budgetId: z.coerce.number().int(),
@@ -175,7 +175,7 @@ export const PATCH = async (
     );
   }
 
-  return new Response(JSON.stringify({ expense: updatedExpense }), {
+  return new Response(JSON.stringify({ ...updatedExpense }), {
     status: 200,
   });
 };

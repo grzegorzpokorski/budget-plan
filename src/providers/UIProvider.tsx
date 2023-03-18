@@ -33,6 +33,8 @@ type UIProviderValue = {
   closeBudgetModal: () => void;
   expenseModalData: ExpenseModalData | null;
   budgetModalData: BudgetModalData | null;
+  clearBudgetModal: () => void;
+  clearExpenseModal: () => void;
 };
 
 const UIContext = createContext<UIProviderValue | null>(null);
@@ -51,11 +53,15 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     setIsExpenseModalOpen(true);
   }, []);
 
+  const clearExpenseModal = useCallback(() => {
+    setExpenseModalData(null);
+  }, []);
+
   const closeExpenseModal = useCallback(() => {
     document.body.classList.remove("overflow-hidden");
     setIsExpenseModalOpen(false);
-    setExpenseModalData(null);
-  }, []);
+    clearExpenseModal();
+  }, [clearExpenseModal]);
 
   const openBudgetModal = useCallback((modalData?: BudgetModalData) => {
     document.body.classList.add("overflow-hidden");
@@ -63,25 +69,33 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     setIsBudgetModalOpen(true);
   }, []);
 
-  const closeBudgetModal = useCallback(() => {
-    document.body.classList.remove("overflow-hidden");
-    setIsBudgetModalOpen(false);
+  const clearBudgetModal = useCallback(() => {
     setBudgetModalData(null);
   }, []);
 
+  const closeBudgetModal = useCallback(() => {
+    document.body.classList.remove("overflow-hidden");
+    setIsBudgetModalOpen(false);
+    clearBudgetModal();
+  }, [clearBudgetModal]);
+
   const value = useMemo(
     () => ({
-      isExpenseModalOpen,
-      openExpenseModal,
-      closeExpenseModal,
-      isBudgetModalOpen,
-      openBudgetModal,
-      closeBudgetModal,
-      expenseModalData,
       budgetModalData,
+      clearBudgetModal,
+      clearExpenseModal,
+      closeBudgetModal,
+      closeExpenseModal,
+      expenseModalData,
+      isBudgetModalOpen,
+      isExpenseModalOpen,
+      openBudgetModal,
+      openExpenseModal,
     }),
     [
       budgetModalData,
+      clearBudgetModal,
+      clearExpenseModal,
       closeBudgetModal,
       closeExpenseModal,
       expenseModalData,

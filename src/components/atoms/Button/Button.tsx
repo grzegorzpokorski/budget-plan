@@ -13,13 +13,16 @@ type ButtonProps = {
 
 const defaultStyles = twMerge(
   "inline-flex gap-1.5 justify-center items-center rounded text-white transition-colors",
-  "disabled:cursor-not-allowed disabled:bg-gray-300",
+  "disabled:cursor-not-allowed",
 );
 
 const variants = {
-  default: twMerge("bg-blue-500 hover:bg-blue-600 border-blue-500"),
+  default: twMerge(
+    "bg-blue-500 hover:bg-blue-600 border-blue-500 disabled:bg-gray-300",
+  ),
   outline: twMerge(
     "bg-transparent hover:bg-blue-600 focus:bg-blue-500 border-2 border-blue-500 text-blue-500 hover:text-white focus:text-white",
+    "disabled:border-gray-300 disabled:text-gray-300 disabled:hover:bg-transparent",
   ),
   "white-outline": twMerge(
     "bg-transparent hover:bg-white border-2 border-white-500 text-white hover:text-blue-500 focus:text-blue-500",

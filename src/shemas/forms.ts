@@ -14,6 +14,8 @@ export const expenseFormSchema = z.object({
   amount: z.coerce.number().positive({
     message: "Wartość wydatku musi być większa od 0.",
   }),
-  budgetId: z.string().nonempty({ message: "Wybierz budżet" }),
+  budgetId: z.coerce
+    .number({ invalid_type_error: "Wybierz budżet" })
+    .nonnegative({ message: "Wybierz budżet" }),
   description: z.string(),
 });

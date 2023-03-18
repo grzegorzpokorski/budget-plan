@@ -1,6 +1,6 @@
+import { Expense } from "@/components/molecules/Expense/Expense";
 import { useGetExpenses } from "@/hooks/useGetExpenses";
 import { formatDate } from "@/utils/formatDate";
-import { ExpensesItem } from "../../molecules/ExpensesItem/ExpensesItem";
 
 export const Expenses = () => {
   const { data, isSuccess, isError } = useGetExpenses();
@@ -17,7 +17,7 @@ export const Expenses = () => {
           const nextDate =
             arr[idx - 1] !== undefined && formatDate(arr[idx - 1].createdAt);
           return (
-            <ExpensesItem
+            <Expense
               key={item.id}
               {...item}
               displayDate={currentDate !== nextDate}

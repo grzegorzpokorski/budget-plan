@@ -38,13 +38,14 @@ export const Select = forwardRef<HTMLSelectElement, Props>(
           required={required}
           disabled={disabled}
           className={twMerge(
-            "appearance-none block w-full bg-white text-gray-700 border-2 border-zinc-300 focus:border-blue-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white ",
+            "appearance-none block w-full bg-white text-gray-700 border-2 border-zinc-300 focus:border-blue-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white",
             isError && "border-red-500 focus:border-red-500",
+            "disabled:cursor-not-allowed",
           )}
           aria-describedby={isError ? `${id}-hint` : undefined}
           {...rest}
         >
-          {!rest.defaultValue && <option value="">-</option>}
+          {!rest.defaultValue && <option hidden>-</option>}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

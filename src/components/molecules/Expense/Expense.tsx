@@ -17,10 +17,12 @@ type ExpensesItemProps = {
   budgetId: number;
   description: string;
   createdAt: string;
+  updatedAt: string;
+} & {
   displayDate: boolean;
 };
 
-export const ExpensesItem = ({
+export const Expense = ({
   id,
   title,
   amount,

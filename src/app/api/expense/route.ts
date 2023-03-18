@@ -52,7 +52,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  return new Response(JSON.stringify({ expense: createExpense }), {
+  return new Response(JSON.stringify({ ...createExpense }), {
     status: 201,
   });
 };

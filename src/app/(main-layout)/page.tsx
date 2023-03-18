@@ -8,6 +8,7 @@ import { BudgetModal } from "@/components/organisms/BudgetModal/BudgetModal";
 import { ExpenseModal } from "@/components/organisms/ExpenseModal/ExpenseModal";
 import { Expenses } from "@/components/organisms/Expenses/Expenses";
 import { Budgets } from "@/components/organisms/Budgets/Budgets";
+import { Toaster } from "sonner";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       </Container>
       <ExpenseModal />
       <BudgetModal />
+      <Toaster position="top-center" />
     </Private>
   );
 }
