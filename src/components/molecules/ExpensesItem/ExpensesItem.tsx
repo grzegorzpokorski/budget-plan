@@ -11,7 +11,9 @@ type ExpensesItemProps = {
   id: number;
   title: string;
   amount: number;
-  budgetName: string;
+  budget: {
+    name: string;
+  };
   budgetId: number;
   description: string;
   createdAt: string;
@@ -22,7 +24,7 @@ export const ExpensesItem = ({
   id,
   title,
   amount,
-  budgetName,
+  budget,
   budgetId,
   description,
   createdAt,
@@ -52,7 +54,7 @@ export const ExpensesItem = ({
           </div>
           <div className="flex flex-col text-sm mt-1">
             <h3 className="font-bold">{title}</h3>
-            <p className="mt-1 text-sm text-gray-500">{budgetName}</p>
+            <p className="mt-1 text-sm text-gray-500">{budget.name}</p>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
@@ -63,7 +65,7 @@ export const ExpensesItem = ({
                 id,
                 title,
                 amount,
-                budgetName,
+                budgetName: budget.name,
                 budgetId,
                 description,
               })

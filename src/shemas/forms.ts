@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const addBudgetFormSchema = z.object({
+export const budgetFormSchema = z.object({
   name: z.string().min(3, {
     message: "Nazwa budżetu musi składać się z co najmniej 3 znaków.",
   }),
@@ -9,7 +9,7 @@ export const addBudgetFormSchema = z.object({
   }),
 });
 
-export const addExpenseFormSchema = z.object({
+export const expenseFormSchema = z.object({
   title: z.string().min(1, { message: "Tytuł nie może być pusty" }),
   amount: z.coerce.number().positive({
     message: "Wartość wydatku musi być większa od 0.",

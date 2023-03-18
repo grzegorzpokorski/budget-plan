@@ -3,14 +3,14 @@
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addBudgetFormSchema } from "@/shemas/shemas";
+import { budgetFormSchema } from "@/shemas/forms";
 import { useUIContext } from "@/providers/UIProvider";
 import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 
-type InputsType = z.infer<typeof addBudgetFormSchema>;
+type InputsType = z.infer<typeof budgetFormSchema>;
 
 export const BudgetModal = () => {
   const { isBudgetModalOpen, closeBudgetModal, budgetModalData } =
@@ -22,7 +22,7 @@ export const BudgetModal = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<InputsType>({
-    resolver: zodResolver(addBudgetFormSchema),
+    resolver: zodResolver(budgetFormSchema),
   });
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
@@ -62,7 +62,7 @@ export const BudgetModal = () => {
             required
             step={0.01}
             min={0.01}
-            defaultValue={budgetModalData?.max}
+            defaultValue={budgetModalData?.maxAmount}
           />
         </div>
         <div className="flex flex-row gap-2 justify-end">

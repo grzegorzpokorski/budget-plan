@@ -12,7 +12,7 @@ import {
 type BudgetModalData = {
   id: number;
   name: string;
-  max: number;
+  maxAmount: number;
 };
 
 type ExpenseModalData = {

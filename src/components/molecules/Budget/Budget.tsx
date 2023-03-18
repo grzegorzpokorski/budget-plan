@@ -9,12 +9,18 @@ import { Progressbar } from "../../atoms/Progressbar/Progressbar";
 type Props = {
   id: number;
   name: string;
-  max: number;
+  maxAmount: number;
   current: number;
   as?: "li" | "div";
 };
 
-export const Budget = ({ as: Tag = "li", id, name, max, current }: Props) => {
+export const Budget = ({
+  as: Tag = "li",
+  id,
+  name,
+  maxAmount,
+  current,
+}: Props) => {
   const { openBudgetModal } = useUIContext();
 
   return (
@@ -24,15 +30,15 @@ export const Budget = ({ as: Tag = "li", id, name, max, current }: Props) => {
           <h2 className="font-bold">{name}</h2>
           <div className="font-base text-sm">
             {formatCurrency(current)} /{" "}
-            <span className="font-semibold">{formatCurrency(max)}</span>
+            <span className="font-semibold">{formatCurrency(maxAmount)}</span>
           </div>
         </div>
-        <Progressbar progress={(current / max) * 100} />
+        <Progressbar progress={(current / maxAmount) * 100} />
       </div>
       <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
         <Button
           size="square"
-          onClick={() => openBudgetModal({ id, name, max })}
+          onClick={() => openBudgetModal({ id, name, maxAmount })}
         >
           <span className="sr-only">edytuj</span>
           <FaEdit />

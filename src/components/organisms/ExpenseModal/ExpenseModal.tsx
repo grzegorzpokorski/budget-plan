@@ -4,14 +4,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUIContext } from "@/providers/UIProvider";
-import { addExpenseFormSchema } from "@/shemas/shemas";
+import { expenseFormSchema } from "@/shemas/forms";
 import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "../../molecules/Input/Input";
 import { Textarea } from "@/components/molecules/Textarea/Textarea";
 import { Select } from "@/components/molecules/Select/Select";
 
-type InputsType = z.infer<typeof addExpenseFormSchema>;
+type InputsType = z.infer<typeof expenseFormSchema>;
 
 export const ExpenseModal = () => {
   const { isExpenseModalOpen, closeExpenseModal, expenseModalData } =
@@ -23,7 +23,7 @@ export const ExpenseModal = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<InputsType>({
-    resolver: zodResolver(addExpenseFormSchema),
+    resolver: zodResolver(expenseFormSchema),
   });
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {

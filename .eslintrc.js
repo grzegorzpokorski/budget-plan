@@ -28,6 +28,7 @@ module.exports = {
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@next/next/no-html-link-for-pages": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
     // following rule especialy for handleSubmit from react-hook-form
     "@typescript-eslint/no-misused-promises": [
       2,
@@ -37,7 +38,6 @@ module.exports = {
         },
       },
     ],
-    // "@typescript-eslint/restrict-template-expressions": "off",
     // "@typescript-eslint/no-empty-interface": "off",
     // "@typescript-eslint/no-unsafe-assignment": "error",
   },
