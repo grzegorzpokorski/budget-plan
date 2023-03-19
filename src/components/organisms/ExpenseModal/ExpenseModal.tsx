@@ -12,62 +12,30 @@ import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { useExpenseModal } from "@/hooks/useExpenseModal";
 import { useGetBudgets } from "@/hooks/useGetBudgets";
+import { useUIContext } from "@/providers/UIProvider";
 
 type InputsType = z.infer<typeof expenseFormSchema>;
 
 export const ExpenseModal = () => {
+  const { expenseModalData, closeExpenseModal } = useUIContext();
   const {
-    isOpen,
-    closeModal,
-    modalData,
-    update,
-    remove,
-    create,
-    resetQueries,
-    error,
-    success,
-  } = useExpenseModal();
-
-  const {
-    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<InputsType>({
     resolver: zodResolver(expenseFormSchema),
   });
-  const onCloseModal = () => {
-    closeModal();
-    reset();
-    resetQueries();
-  };
-
-  const onAfterSubmitForm = () => {
-    reset();
-    resetQueries();
-  };
 
   const budgets = useGetBudgets();
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
-    if (modalData) {
-      update({
-        id: modalData.id,
-        expense: data,
-      });
-      onAfterSubmitForm();
-      return;
-    }
-
-    create({ expense: data });
-    onAfterSubmitForm();
+    console.log(data);
   };
 
-  if (!isOpen) return null;
   return (
     <Modal
-      title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
-      closeModal={onCloseModal}
+      title={expenseModalData ? "Edytuj wydatek" : "Dodaj wydatek"}
+      closeModal={closeExpenseModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
         <fieldset>
@@ -79,7 +47,7 @@ export const ExpenseModal = () => {
               isError={Boolean(errors.title)}
               errormessage={errors.title?.message || ""}
               required
-              defaultValue={modalData?.title}
+              defaultValue={expenseModalData?.title}
             />
           </div>
           <div className="w-full">
@@ -92,7 +60,7 @@ export const ExpenseModal = () => {
               required
               step={0.01}
               min={0.01}
-              defaultValue={modalData?.amount}
+              defaultValue={expenseModalData?.amount}
             />
           </div>
           {budgets.data?.budgets && (
@@ -102,7 +70,7 @@ export const ExpenseModal = () => {
                 {...register("budgetId")}
                 isError={Boolean(errors.budgetId)}
                 errormessage={errors.budgetId?.message || ""}
-                defaultValue={modalData?.budgetId}
+                defaultValue={expenseModalData?.budgetId}
                 options={budgets.data?.budgets.map((option) => ({
                   label: option.name,
                   value: option.id,
@@ -116,19 +84,16 @@ export const ExpenseModal = () => {
               {...register("description")}
               isError={Boolean(errors.description)}
               errormessage={errors.description?.message || ""}
-              defaultValue={modalData?.description}
+              defaultValue={expenseModalData?.description}
             />
           </div>
           <div className="flex flex-row gap-2 justify-end">
-            {modalData ? (
+            {expenseModalData ? (
               <Button
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => {
-                  remove({ id: modalData.id });
-                  onAfterSubmitForm();
-                }}
+                onClick={() => null}
               >
                 Usuń
               </Button>
@@ -138,24 +103,10 @@ export const ExpenseModal = () => {
               </Button>
             )}
             <Button type="submit" className="w-full">
-              {modalData ? "Aktualizuj" : "Dodaj"}
+              {expenseModalData ? "Aktualizuj" : "Dodaj"}
             </Button>
           </div>
         </fieldset>
-        {success && (
-          <FormInfo
-            content="Pomyślnie wykonano operacje."
-            error={false}
-            textCenter
-          />
-        )}
-        {error && (
-          <FormInfo
-            content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
-            error={true}
-            textCenter
-          />
-        )}
       </form>
     </Modal>
   );

@@ -9,24 +9,13 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { useBudgetModal } from "@/hooks/useBudgetModal";
+import { useUIContext } from "@/providers/UIProvider";
 
 type InputsType = z.infer<typeof budgetFormSchema>;
 
 export const BudgetModal = () => {
+  const { budgetModalData, closeBudgetModal } = useUIContext();
   const {
-    isOpen,
-    closeModal,
-    modalData,
-    create,
-    resetQueries,
-    remove,
-    update,
-    error,
-    success,
-  } = useBudgetModal();
-
-  const {
-    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -34,38 +23,17 @@ export const BudgetModal = () => {
     resolver: zodResolver(budgetFormSchema),
   });
 
-  const onCloseModal = () => {
-    closeModal();
-    reset();
-    resetQueries();
-  };
-
-  const onAfterSubmitForm = () => {
-    reset();
-    resetQueries();
-  };
-
   const onSubmit: SubmitHandler<InputsType> = (data) => {
     console.log(data);
-    if (modalData) {
-      update({ id: modalData.id, budget: data });
-      onAfterSubmitForm();
-      return;
-    }
-
-    create({ budget: data });
-    onAfterSubmitForm();
   };
-
-  if (!isOpen) return null;
 
   return (
     <Modal
-      title={modalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
-      closeModal={onCloseModal}
+      title={budgetModalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
+      closeModal={closeBudgetModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset disabled={error || success}>
+        <fieldset>
           <div className="w-full">
             <Input
               type="text"
@@ -74,7 +42,7 @@ export const BudgetModal = () => {
               isError={Boolean(errors.name)}
               errormessage={errors.name?.message || ""}
               required
-              defaultValue={modalData?.name}
+              defaultValue={budgetModalData?.name}
             />
           </div>
           <div className="w-full">
@@ -87,19 +55,16 @@ export const BudgetModal = () => {
               required
               step={0.01}
               min={0.01}
-              defaultValue={modalData?.maxAmount}
+              defaultValue={budgetModalData?.maxAmount}
             />
           </div>
           <div className="flex flex-row gap-2 justify-end">
-            {modalData ? (
+            {budgetModalData ? (
               <Button
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => {
-                  remove({ id: modalData.id });
-                  onAfterSubmitForm();
-                }}
+                onClick={() => null}
               >
                 Usuń
               </Button>
@@ -109,24 +74,10 @@ export const BudgetModal = () => {
               </Button>
             )}
             <Button type="submit" className="w-full">
-              {modalData ? "Aktualizuj" : "Dodaj"}
+              {budgetModalData ? "Aktualizuj" : "Dodaj"}
             </Button>
           </div>
         </fieldset>
-        {success && (
-          <FormInfo
-            content="Pomyślnie wykonano operacje."
-            error={false}
-            textCenter
-          />
-        )}
-        {error && (
-          <FormInfo
-            content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
-            error={true}
-            textCenter
-          />
-        )}
       </form>
     </Modal>
   );

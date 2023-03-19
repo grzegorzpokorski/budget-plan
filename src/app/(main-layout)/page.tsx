@@ -4,11 +4,10 @@ import { Container } from "@/components/atoms/Container/Container";
 import { Private } from "@/components/atoms/Private/Private";
 import { BudgetRealization } from "@/components/molecules/BudgetRealization/BudgetRealization";
 import { MainHeader } from "@/components/molecules/MainHeader/MainHeader";
-import { BudgetModal } from "@/components/organisms/BudgetModal/BudgetModal";
-import { ExpenseModal } from "@/components/organisms/ExpenseModal/ExpenseModal";
 import { Expenses } from "@/components/organisms/Expenses/Expenses";
 import { Budgets } from "@/components/organisms/Budgets/Budgets";
 import { Toaster } from "sonner";
+import { Modals } from "@/components/organisms/Modals/Modals";
 
 export default function Home() {
   return (
@@ -19,8 +18,7 @@ export default function Home() {
         <Budgets />
         <Expenses />
       </Container>
-      <ExpenseModal />
-      <BudgetModal />
+      <Modals />
       <Toaster position="top-center" />
     </Private>
   );
