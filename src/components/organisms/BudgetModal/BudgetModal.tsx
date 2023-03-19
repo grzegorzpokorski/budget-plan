@@ -76,13 +76,15 @@ export const BudgetModal = () => {
     }
   };
 
+  const disabled = Boolean(error) || Boolean(success);
+
   return (
     <Modal
       title={modalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
       closeModal={closeModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset disabled={Boolean(error) || Boolean(success)}>
+        <fieldset disabled={disabled}>
           <div className="w-full">
             <Input
               type="text"
@@ -126,7 +128,7 @@ export const BudgetModal = () => {
                     {
                       onSuccess: () => {
                         setSuccessMessage(
-                          `Pomyślnie usunięto budżet "${modalData.name}"`,
+                          `Pomyślnie usunięto budżet "${modalData.name}".`,
                         );
                       },
                       onError: () => {

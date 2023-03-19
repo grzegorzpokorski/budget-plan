@@ -3,7 +3,7 @@ import { expenseSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
 
-export const deleteExpenseQuery = async (id: number) =>
+export const deleteExpenseQuery = async ({ id }: { id: number }) =>
   await fetcher({
     url: `/api/expense/${id}`,
     method: "DELETE",

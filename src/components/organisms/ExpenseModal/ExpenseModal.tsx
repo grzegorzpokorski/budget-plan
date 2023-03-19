@@ -10,14 +10,27 @@ import { Input } from "../../molecules/Input/Input";
 import { Textarea } from "@/components/molecules/Textarea/Textarea";
 import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
+import { Loader } from "@/components/molecules/Loader/loader";
 import { useExpenseModal } from "@/hooks/useExpenseModal";
 import { useGetBudgets } from "@/hooks/useGetBudgets";
-import { useUIContext } from "@/providers/UIProvider";
+import { useCreateExpense } from "@/hooks/useCreateExpense";
+import { useUpdateExpense } from "@/hooks/useUpdateExpense";
+import { useDeleteExpense } from "@/hooks/useDeteteExpense";
 
 type InputsType = z.infer<typeof expenseFormSchema>;
 
 export const ExpenseModal = () => {
-  const { expenseModalData, closeExpenseModal } = useUIContext();
+  const {
+    modalData,
+    budgets,
+    closeModal,
+    success,
+    setSuccessMessage,
+    error,
+    setErrorMessage,
+    loading,
+    setLoading,
+  } = useExpenseModal();
   const {
     register,
     handleSubmit,
@@ -26,19 +39,53 @@ export const ExpenseModal = () => {
     resolver: zodResolver(expenseFormSchema),
   });
 
-  const budgets = useGetBudgets();
+  const createExpense = useCreateExpense();
+  const updateExpense = useUpdateExpense();
+  const deleteExpense = useDeleteExpense();
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
-    console.log(data);
+    setLoading(true);
+
+    if (!modalData) {
+      createExpense.mutate(
+        { expense: data },
+        {
+          onSuccess: () => {
+            setSuccessMessage(`Pomyślnie dodano nowy wydatek: "${data.title}"`);
+          },
+          onError: () => {
+            setErrorMessage(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
+          },
+          onSettled: () => setLoading(false),
+        },
+      );
+    }
+
+    if (modalData) {
+      updateExpense.mutate(
+        { id: modalData.id, expense: data },
+        {
+          onSuccess: () => {
+            setSuccessMessage(`Pomyślnie zaktualizowano wydatek.`);
+          },
+          onError: () => {
+            setErrorMessage(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
+          },
+          onSettled: () => setLoading(false),
+        },
+      );
+    }
   };
+
+  const disabled = Boolean(error) || Boolean(success);
 
   return (
     <Modal
-      title={expenseModalData ? "Edytuj wydatek" : "Dodaj wydatek"}
-      closeModal={closeExpenseModal}
+      title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
+      closeModal={closeModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset>
+        <fieldset disabled={disabled}>
           <div className="w-full">
             <Input
               type="text"
@@ -47,7 +94,7 @@ export const ExpenseModal = () => {
               isError={Boolean(errors.title)}
               errormessage={errors.title?.message || ""}
               required
-              defaultValue={expenseModalData?.title}
+              defaultValue={modalData?.title}
             />
           </div>
           <div className="w-full">
@@ -60,7 +107,7 @@ export const ExpenseModal = () => {
               required
               step={0.01}
               min={0.01}
-              defaultValue={expenseModalData?.amount}
+              defaultValue={modalData?.amount}
             />
           </div>
           {budgets.data?.budgets && (
@@ -70,7 +117,7 @@ export const ExpenseModal = () => {
                 {...register("budgetId")}
                 isError={Boolean(errors.budgetId)}
                 errormessage={errors.budgetId?.message || ""}
-                defaultValue={expenseModalData?.budgetId}
+                defaultValue={modalData?.budgetId}
                 options={budgets.data?.budgets.map((option) => ({
                   label: option.name,
                   value: option.id,
@@ -84,16 +131,40 @@ export const ExpenseModal = () => {
               {...register("description")}
               isError={Boolean(errors.description)}
               errormessage={errors.description?.message || ""}
-              defaultValue={expenseModalData?.description}
+              defaultValue={modalData?.description}
             />
           </div>
           <div className="flex flex-row gap-2 justify-end">
-            {expenseModalData ? (
+            {modalData ? (
               <Button
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => null}
+                onClick={() => {
+                  const confirmed = confirm(
+                    `Czy potwierdzasz usunięcie wydatku ${modalData.title}?`,
+                  );
+
+                  if (!confirmed) return;
+
+                  setLoading(true);
+                  deleteExpense.mutate(
+                    { id: modalData.id },
+                    {
+                      onSuccess: () => {
+                        setSuccessMessage(
+                          `Pomyślnie usunięto wydatek "${modalData.title}".`,
+                        );
+                      },
+                      onError: () => {
+                        setErrorMessage(
+                          `Coś poszło nie tak. Spróbuj ponownie póżniej.`,
+                        );
+                      },
+                      onSettled: () => setLoading(false),
+                    },
+                  );
+                }}
               >
                 Usuń
               </Button>
@@ -103,10 +174,17 @@ export const ExpenseModal = () => {
               </Button>
             )}
             <Button type="submit" className="w-full">
-              {expenseModalData ? "Aktualizuj" : "Dodaj"}
+              {modalData ? "Aktualizuj" : "Dodaj"}
             </Button>
           </div>
         </fieldset>
+        {success && <FormInfo content={success} error={false} />}
+        {error && <FormInfo content={error} error={true} />}
+        {loading && (
+          <div className="mt-4">
+            <Loader />
+          </div>
+        )}
       </form>
     </Modal>
   );
