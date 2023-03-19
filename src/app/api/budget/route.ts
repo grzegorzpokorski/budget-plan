@@ -29,6 +29,7 @@ export const POST = async (request: NextRequest) => {
   const alreadyExists = await prisma.budget.findFirst({
     where: {
       name: requestBody.data.name,
+      userId: session.user.id,
     },
   });
 
@@ -59,7 +60,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  return new Response(JSON.stringify({ budget: createBudget }), {
+  return new Response(JSON.stringify({ ...createBudget }), {
     status: 201,
   });
 };

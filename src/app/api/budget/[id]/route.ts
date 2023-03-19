@@ -93,7 +93,7 @@ export const DELETE = async (
     );
   }
 
-  return new Response(JSON.stringify({ budget: deletedBudget }), {
+  return new Response(JSON.stringify({ ...deletedBudget }), {
     status: 200,
   });
 };
@@ -139,7 +139,7 @@ export const PATCH = async (
     );
   }
 
-  return new Response(JSON.stringify({ budget: updatedBudget }), {
+  return new Response(JSON.stringify({ ...updatedBudget }), {
     status: 200,
   });
 };

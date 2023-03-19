@@ -34,29 +34,33 @@ export const ExpenseModal = () => {
   } = useForm<InputsType>({
     resolver: zodResolver(expenseFormSchema),
   });
+  const onCloseModal = () => {
+    closeModal();
+    reset();
+    resetQueries();
+  };
 
   const budgets = useGetBudgets();
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
     if (modalData) {
-      return update({
+      update({
         id: modalData.id,
         expense: data,
       });
+      onCloseModal();
+      return;
     }
 
     create({ expense: data });
+    onCloseModal();
   };
 
   if (!isOpen) return null;
   return (
     <Modal
       title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
-      closeModal={() => {
-        closeModal();
-        reset();
-        resetQueries();
-      }}
+      closeModal={onCloseModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
         <fieldset>
@@ -114,7 +118,10 @@ export const ExpenseModal = () => {
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => remove({ id: modalData.id })}
+                onClick={() => {
+                  remove({ id: modalData.id });
+                  onCloseModal();
+                }}
               >
                 Usuń
               </Button>

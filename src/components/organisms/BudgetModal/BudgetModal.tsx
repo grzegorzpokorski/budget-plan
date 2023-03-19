@@ -4,17 +4,24 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { budgetFormSchema } from "@/shemas/forms";
-import { useUIContext } from "@/providers/UIProvider";
 import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
+import { useBudgetModal } from "@/hooks/useBudgetModal";
 
 type InputsType = z.infer<typeof budgetFormSchema>;
 
 export const BudgetModal = () => {
-  const { isBudgetModalOpen, closeBudgetModal, budgetModalData } =
-    useUIContext();
+  const {
+    isOpen,
+    closeModal,
+    modalData,
+    create,
+    resetQueries,
+    remove,
+    update,
+  } = useBudgetModal();
 
   const {
     reset,
@@ -25,20 +32,30 @@ export const BudgetModal = () => {
     resolver: zodResolver(budgetFormSchema),
   });
 
-  const onSubmit: SubmitHandler<InputsType> = (data) => {
-    console.log(data);
+  const onCloseModal = () => {
+    closeModal();
     reset();
+    resetQueries();
   };
 
-  if (!isBudgetModalOpen) return null;
+  const onSubmit: SubmitHandler<InputsType> = (data) => {
+    console.log(data);
+    if (modalData) {
+      update({ id: modalData.id, budget: data });
+      onCloseModal();
+      return;
+    }
+
+    create({ budget: data });
+    onCloseModal();
+  };
+
+  if (!isOpen) return null;
 
   return (
     <Modal
-      title={budgetModalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
-      closeModal={() => {
-        closeBudgetModal();
-        reset();
-      }}
+      title={modalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
+      closeModal={onCloseModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
         <div className="w-full">
@@ -49,7 +66,7 @@ export const BudgetModal = () => {
             isError={Boolean(errors.name)}
             errormessage={errors.name?.message || ""}
             required
-            defaultValue={budgetModalData?.name}
+            defaultValue={modalData?.name}
           />
         </div>
         <div className="w-full">
@@ -62,12 +79,20 @@ export const BudgetModal = () => {
             required
             step={0.01}
             min={0.01}
-            defaultValue={budgetModalData?.maxAmount}
+            defaultValue={modalData?.maxAmount}
           />
         </div>
         <div className="flex flex-row gap-2 justify-end">
-          {budgetModalData ? (
-            <Button type="button" variant="outline" className="w-full">
+          {modalData ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                remove({ id: modalData.id });
+                onCloseModal();
+              }}
+            >
               Usuń
             </Button>
           ) : (
@@ -76,7 +101,7 @@ export const BudgetModal = () => {
             </Button>
           )}
           <Button type="submit" className="w-full">
-            {budgetModalData ? "Aktualizuj" : "Dodaj"}
+            {modalData ? "Aktualizuj" : "Dodaj"}
           </Button>
         </div>
         {/* <FormInfo

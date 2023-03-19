@@ -8,18 +8,20 @@ export const Budgets = () => {
     return <p>error budgets</p>;
   }
 
-  if (isSuccess) {
+  if (isSuccess && data.budgets.length > 0) {
     return (
       <ul
         className="list-none flex flex-col gap-4 bg-white divide-y-2 p-6 pt-2 shadow rounded"
         role="list"
       >
         {data.budgets.map((item) => (
-          <Budget key={item.id} {...item} current={50} />
+          <Budget key={item.id} {...item} />
         ))}
       </ul>
     );
   }
+
+  if (isSuccess && data.budgets.length === 0) return null;
 
   return <p>loading</p>;
 };

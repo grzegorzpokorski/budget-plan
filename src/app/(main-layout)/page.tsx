@@ -15,7 +15,7 @@ export default function Home() {
     <Private>
       <MainHeader />
       <Container className="flex flex-col gap-8 py-8">
-        <BudgetRealization current={2300} max={3550} name="Realizacja" />
+        <BudgetRealization name="Realizacja" />
         <Budgets />
         <Expenses />
       </Container>
