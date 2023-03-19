@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
 import { useCreateExpense } from "./useCreateExpense";
 import { useDeleteExpense } from "./useDeteteExpense";
 import { useUpdateExpense } from "./useUpdateExpense";
 
 export const useExpenseModal = () => {
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { isExpenseModalOpen, closeExpenseModal, expenseModalData } =
     useUIContext();
 
@@ -23,7 +26,10 @@ export const useExpenseModal = () => {
       description: string;
     };
   }) => {
-    updateExpense.mutate({ id, expense });
+    updateExpense.mutate(
+      { id, expense },
+      { onError: () => setError(true), onSuccess: () => setSuccess(true) },
+    );
   };
 
   const create = ({
@@ -36,11 +42,17 @@ export const useExpenseModal = () => {
       description: string;
     };
   }) => {
-    createExpense.mutate({ expense });
+    createExpense.mutate(
+      { expense },
+      { onError: () => setError(true), onSuccess: () => setSuccess(true) },
+    );
   };
 
   const remove = ({ id }: { id: number }) => {
-    deleteExpense.mutate(id);
+    deleteExpense.mutate(id, {
+      onError: () => setError(true),
+      onSuccess: () => setSuccess(true),
+    });
   };
 
   const resetQueries = () => {
@@ -49,13 +61,22 @@ export const useExpenseModal = () => {
     createExpense.reset();
   };
 
+  const clearError = () => setError(false);
+  const clearSuccess = () => setSuccess(false);
+
   return {
     isOpen: isExpenseModalOpen,
-    closeModal: closeExpenseModal,
+    closeModal: () => {
+      closeExpenseModal();
+      clearError();
+      clearSuccess();
+    },
     modalData: expenseModalData,
     update,
     create,
     remove,
     resetQueries,
+    error,
+    success,
   };
 };

@@ -5,6 +5,8 @@ import { useDeleteBudget } from "./useDeleteBudget";
 import { useUpdateBudget } from "./useUpdateBudget";
 
 export const useBudgetModal = () => {
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const {
     isBudgetModalOpen,
     closeBudgetModal,
@@ -23,11 +25,17 @@ export const useBudgetModal = () => {
       maxAmount: number;
     };
   }) => {
-    return createBudget.mutate({ budget });
+    return createBudget.mutate(
+      { budget },
+      { onError: () => setError(true), onSuccess: () => setSuccess(true) },
+    );
   };
 
   const remove = ({ id }: { id: number }) => {
-    return deleteBudget.mutate(id);
+    return deleteBudget.mutate(id, {
+      onError: () => setError(true),
+      onSuccess: () => setSuccess(true),
+    });
   };
 
   const update = ({
@@ -40,7 +48,10 @@ export const useBudgetModal = () => {
       maxAmount: number;
     };
   }) => {
-    updateBudget.mutate({ id, budget });
+    updateBudget.mutate(
+      { id, budget },
+      { onError: () => setError(true), onSuccess: () => setSuccess(true) },
+    );
   };
 
   const resetQueries = () => {
@@ -49,14 +60,23 @@ export const useBudgetModal = () => {
     createBudget.reset();
   };
 
+  const clearError = () => setError(false);
+  const clearSuccess = () => setSuccess(false);
+
   return {
     isOpen: isBudgetModalOpen,
-    closeModal: closeBudgetModal,
+    closeModal: () => {
+      closeBudgetModal();
+      clearError();
+      clearSuccess();
+    },
     openModal: openBudgetModal,
     modalData: budgetModalData,
     create,
     resetQueries,
     remove,
     update,
+    error,
+    success,
   };
 };

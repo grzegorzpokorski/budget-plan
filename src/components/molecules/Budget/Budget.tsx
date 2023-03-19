@@ -6,6 +6,7 @@ import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { FaEdit } from "react-icons/fa";
 import { Progressbar } from "../../atoms/Progressbar/Progressbar";
+import { Loader } from "../Loader/loader";
 
 type Props = {
   id: number;
@@ -51,5 +52,5 @@ export const Budget = ({ as: Tag = "li", id, name, maxAmount }: Props) => {
     );
   }
 
-  return <p>loading</p>;
+  return <Loader />;
 };

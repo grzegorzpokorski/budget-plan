@@ -21,6 +21,8 @@ export const BudgetModal = () => {
     resetQueries,
     remove,
     update,
+    error,
+    success,
   } = useBudgetModal();
 
   const {
@@ -63,7 +65,7 @@ export const BudgetModal = () => {
       closeModal={onCloseModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset>
+        <fieldset disabled={error || success}>
           <div className="w-full">
             <Input
               type="text"
@@ -111,11 +113,20 @@ export const BudgetModal = () => {
             </Button>
           </div>
         </fieldset>
-        {/* <FormInfo
-          content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
-          error={true}
-          textCenter
-        /> */}
+        {success && (
+          <FormInfo
+            content="Pomyślnie wykonano operacje."
+            error={false}
+            textCenter
+          />
+        )}
+        {error && (
+          <FormInfo
+            content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
+            error={true}
+            textCenter
+          />
+        )}
       </form>
     </Modal>
   );

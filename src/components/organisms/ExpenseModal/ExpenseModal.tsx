@@ -24,6 +24,8 @@ export const ExpenseModal = () => {
     remove,
     create,
     resetQueries,
+    error,
+    success,
   } = useExpenseModal();
 
   const {
@@ -40,6 +42,11 @@ export const ExpenseModal = () => {
     resetQueries();
   };
 
+  const onAfterSubmitForm = () => {
+    reset();
+    resetQueries();
+  };
+
   const budgets = useGetBudgets();
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
@@ -48,12 +55,12 @@ export const ExpenseModal = () => {
         id: modalData.id,
         expense: data,
       });
-      onCloseModal();
+      onAfterSubmitForm();
       return;
     }
 
     create({ expense: data });
-    onCloseModal();
+    onAfterSubmitForm();
   };
 
   if (!isOpen) return null;
@@ -120,7 +127,7 @@ export const ExpenseModal = () => {
                 className="w-full"
                 onClick={() => {
                   remove({ id: modalData.id });
-                  onCloseModal();
+                  onAfterSubmitForm();
                 }}
               >
                 Usuń
@@ -135,29 +142,20 @@ export const ExpenseModal = () => {
             </Button>
           </div>
         </fieldset>
-        {/* {deleteExpense.isSuccess && (
+        {success && (
           <FormInfo
-            content={`Pomyślnie usunięto wydatek: "${modalData?.title}"!`}
+            content="Pomyślnie wykonano operacje."
             error={false}
+            textCenter
           />
         )}
-        {updateExpense.isSuccess && (
+        {error && (
           <FormInfo
-            content={`Pomyślnie edytowano wydatek: "${modalData?.title}"!`}
-            error={false}
+            content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
+            error={true}
+            textCenter
           />
         )}
-        {createExpense.isSuccess && (
-          <FormInfo content={`Pomyślnie dodano wydatek.`} error={false} />
-        )}
-        {(deleteExpense.isError ||
-          updateExpense.isError ||
-          createExpense.isError) && (
-          <FormInfo
-            content={`Coś poszło nie tak. Spróbuj ponownie póżniej.`}
-            error
-          />
-        )} */}
       </form>
     </Modal>
   );
