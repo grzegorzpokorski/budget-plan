@@ -3,7 +3,7 @@ import { budgetShema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
 
-export const deleteBudgetQuery = async (id: number) =>
+export const deleteBudgetQuery = async ({ id }: { id: number }) =>
   await fetcher({
     url: `/api/budget/${id}`,
     method: "DELETE",

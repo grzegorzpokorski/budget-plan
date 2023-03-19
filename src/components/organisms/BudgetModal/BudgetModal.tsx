@@ -8,13 +8,30 @@ import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
+import { Loader } from "@/components/molecules/Loader/loader";
 import { useBudgetModal } from "@/hooks/useBudgetModal";
-import { useUIContext } from "@/providers/UIProvider";
+import { useCreateBudget } from "@/hooks/useCreateBudget";
+import { useUpdateBudget } from "@/hooks/useUpdateBudget";
+import { useDeleteBudget } from "@/hooks/useDeleteBudget";
 
 type InputsType = z.infer<typeof budgetFormSchema>;
 
 export const BudgetModal = () => {
-  const { budgetModalData, closeBudgetModal } = useUIContext();
+  const {
+    modalData,
+    closeModal,
+    success,
+    setSuccessMessage,
+    error,
+    setErrorMessage,
+    loading,
+    setLoading,
+  } = useBudgetModal();
+
+  const createBudget = useCreateBudget();
+  const updateBudget = useUpdateBudget();
+  const deleteBudget = useDeleteBudget();
+
   const {
     register,
     handleSubmit,
@@ -24,16 +41,48 @@ export const BudgetModal = () => {
   });
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
-    console.log(data);
+    setLoading(true);
+
+    if (!modalData) {
+      createBudget.mutate(
+        { budget: data },
+        {
+          onSuccess: () => {
+            setSuccessMessage(`Pomyślnie dodano nowy budżet: "${data.name}"`);
+          },
+          onError: () => {
+            setErrorMessage(
+              `Coś poszło nie tak. Spróbuj ponownie póżniej. Upewnij się, czy podany budżet już nie istnieje.`,
+            );
+          },
+          onSettled: () => setLoading(false),
+        },
+      );
+    }
+
+    if (modalData) {
+      updateBudget.mutate(
+        { id: modalData.id, budget: data },
+        {
+          onSuccess: () => {
+            setSuccessMessage(`Pomyślnie zaktualizowano budżet.`);
+          },
+          onError: () => {
+            setErrorMessage(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
+          },
+          onSettled: () => setLoading(false),
+        },
+      );
+    }
   };
 
   return (
     <Modal
-      title={budgetModalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
-      closeModal={closeBudgetModal}
+      title={modalData ? "Edytuj budżet" : "Dodaj nowy budżet"}
+      closeModal={closeModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset>
+        <fieldset disabled={Boolean(error) || Boolean(success)}>
           <div className="w-full">
             <Input
               type="text"
@@ -42,7 +91,7 @@ export const BudgetModal = () => {
               isError={Boolean(errors.name)}
               errormessage={errors.name?.message || ""}
               required
-              defaultValue={budgetModalData?.name}
+              defaultValue={modalData?.name}
             />
           </div>
           <div className="w-full">
@@ -55,16 +104,40 @@ export const BudgetModal = () => {
               required
               step={0.01}
               min={0.01}
-              defaultValue={budgetModalData?.maxAmount}
+              defaultValue={modalData?.maxAmount}
             />
           </div>
           <div className="flex flex-row gap-2 justify-end">
-            {budgetModalData ? (
+            {modalData ? (
               <Button
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => null}
+                onClick={() => {
+                  const confirmed = confirm(
+                    `Usunięcie budżetu spowoduje również usunięcie powiązanych z nim wydatków. Czy potwierdzasz usunięcie budżetu ${modalData.name}?`,
+                  );
+
+                  if (!confirmed) return;
+
+                  setLoading(true);
+                  deleteBudget.mutate(
+                    { id: modalData.id },
+                    {
+                      onSuccess: () => {
+                        setSuccessMessage(
+                          `Pomyślnie usunięto budżet "${modalData.name}"`,
+                        );
+                      },
+                      onError: () => {
+                        setErrorMessage(
+                          `Coś poszło nie tak. Spróbuj ponownie póżniej.`,
+                        );
+                      },
+                      onSettled: () => setLoading(false),
+                    },
+                  );
+                }}
               >
                 Usuń
               </Button>
@@ -74,10 +147,17 @@ export const BudgetModal = () => {
               </Button>
             )}
             <Button type="submit" className="w-full">
-              {budgetModalData ? "Aktualizuj" : "Dodaj"}
+              {modalData ? "Aktualizuj" : "Dodaj"}
             </Button>
           </div>
         </fieldset>
+        {success && <FormInfo content={success} error={false} />}
+        {error && <FormInfo content={error} error={true} />}
+        {loading && (
+          <div className="mt-4">
+            <Loader />
+          </div>
+        )}
       </form>
     </Modal>
   );
