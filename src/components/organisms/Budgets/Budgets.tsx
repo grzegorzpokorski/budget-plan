@@ -1,4 +1,5 @@
 import { Budget } from "@/components/molecules/Budget/Budget";
+import { Loader } from "@/components/molecules/Loader/loader";
 import { useGetBudgets } from "@/hooks/useGetBudgets";
 
 export const Budgets = () => {
@@ -23,5 +24,5 @@ export const Budgets = () => {
 
   if (isSuccess && data.budgets.length === 0) return null;
 
-  return <p>loading</p>;
+  return <Loader />;
 };

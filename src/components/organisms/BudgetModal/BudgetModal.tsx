@@ -38,16 +38,21 @@ export const BudgetModal = () => {
     resetQueries();
   };
 
+  const onAfterSubmitForm = () => {
+    reset();
+    resetQueries();
+  };
+
   const onSubmit: SubmitHandler<InputsType> = (data) => {
     console.log(data);
     if (modalData) {
       update({ id: modalData.id, budget: data });
-      onCloseModal();
+      onAfterSubmitForm();
       return;
     }
 
     create({ budget: data });
-    onCloseModal();
+    onAfterSubmitForm();
   };
 
   if (!isOpen) return null;
@@ -58,52 +63,54 @@ export const BudgetModal = () => {
       closeModal={onCloseModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <div className="w-full">
-          <Input
-            type="text"
-            label="Nazwa budżetu"
-            {...register("name")}
-            isError={Boolean(errors.name)}
-            errormessage={errors.name?.message || ""}
-            required
-            defaultValue={modalData?.name}
-          />
-        </div>
-        <div className="w-full">
-          <Input
-            type="number"
-            label="Docelowa wartość"
-            {...register("maxAmount")}
-            isError={Boolean(errors.maxAmount)}
-            errormessage={errors.maxAmount?.message || ""}
-            required
-            step={0.01}
-            min={0.01}
-            defaultValue={modalData?.maxAmount}
-          />
-        </div>
-        <div className="flex flex-row gap-2 justify-end">
-          {modalData ? (
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={() => {
-                remove({ id: modalData.id });
-                onCloseModal();
-              }}
-            >
-              Usuń
+        <fieldset>
+          <div className="w-full">
+            <Input
+              type="text"
+              label="Nazwa budżetu"
+              {...register("name")}
+              isError={Boolean(errors.name)}
+              errormessage={errors.name?.message || ""}
+              required
+              defaultValue={modalData?.name}
+            />
+          </div>
+          <div className="w-full">
+            <Input
+              type="number"
+              label="Docelowa wartość"
+              {...register("maxAmount")}
+              isError={Boolean(errors.maxAmount)}
+              errormessage={errors.maxAmount?.message || ""}
+              required
+              step={0.01}
+              min={0.01}
+              defaultValue={modalData?.maxAmount}
+            />
+          </div>
+          <div className="flex flex-row gap-2 justify-end">
+            {modalData ? (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  remove({ id: modalData.id });
+                  onAfterSubmitForm();
+                }}
+              >
+                Usuń
+              </Button>
+            ) : (
+              <Button type="reset" variant="outline" className="w-full">
+                Reset
+              </Button>
+            )}
+            <Button type="submit" className="w-full">
+              {modalData ? "Aktualizuj" : "Dodaj"}
             </Button>
-          ) : (
-            <Button type="reset" variant="outline" className="w-full">
-              Reset
-            </Button>
-          )}
-          <Button type="submit" className="w-full">
-            {modalData ? "Aktualizuj" : "Dodaj"}
-          </Button>
-        </div>
+          </div>
+        </fieldset>
         {/* <FormInfo
           content="Wystąpił nieoczekiwany błąd. Spróbuj ponownie póżniej."
           error={true}

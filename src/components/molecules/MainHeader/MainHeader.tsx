@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/atoms/Button/Button";
 import { Container } from "@/components/atoms/Container/Container";
+import { useGetBudgets } from "@/hooks/useGetBudgets";
 import { useUIContext } from "@/providers/UIProvider";
 import { signOut } from "next-auth/react";
 import {
@@ -13,6 +14,8 @@ import {
 
 export const MainHeader = () => {
   const { openExpenseModal, openBudgetModal } = useUIContext();
+  const budgets = useGetBudgets();
+
   return (
     <>
       <header className="md:fixed top-0 left-0 w-full h-16 bg-white flex flex-row shadow z-20">
@@ -23,10 +26,12 @@ export const MainHeader = () => {
           </h1>
           <div className="flex flex-row gap-2">
             <div className="hidden md:flex flex-row gap-2">
-              <Button variant="outline" onClick={() => openExpenseModal()}>
-                Nowy wydatek
-                <FaPlus />
-              </Button>
+              {budgets.isSuccess && budgets.data.budgets.length > 0 && (
+                <Button variant="outline" onClick={() => openExpenseModal()}>
+                  Nowy wydatek
+                  <FaPlus />
+                </Button>
+              )}
               <Button variant="outline" onClick={() => openBudgetModal()}>
                 Nowy budżet
                 <FaMoneyCheck />
@@ -45,10 +50,15 @@ export const MainHeader = () => {
               Nowy budżet
               <FaMoneyCheck />
             </Button>
-            <Button variant="white-outline" onClick={() => openExpenseModal()}>
-              Nowy wydatek
-              <FaPlus />
-            </Button>
+            {budgets.isSuccess && budgets.data.budgets.length > 0 && (
+              <Button
+                variant="white-outline"
+                onClick={() => openExpenseModal()}
+              >
+                Nowy wydatek
+                <FaPlus />
+              </Button>
+            )}
           </div>
         </Container>
       </div>

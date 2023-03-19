@@ -1,4 +1,5 @@
 import { Expense } from "@/components/molecules/Expense/Expense";
+import { Loader } from "@/components/molecules/Loader/loader";
 import { useGetExpenses } from "@/hooks/useGetExpenses";
 import { formatDate } from "@/utils/formatDate";
 
@@ -27,5 +28,5 @@ export const Expenses = () => {
       </ul>
     );
   }
-  return <p>loading</p>;
+  return <Loader />;
 };
