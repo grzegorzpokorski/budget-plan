@@ -15,6 +15,9 @@ export const GET = async (request: Request) => {
     where: {
       userId: session.user.id,
     },
+    orderBy: {
+      id: "asc",
+    },
   });
 
   return new Response(
