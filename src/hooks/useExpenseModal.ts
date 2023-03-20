@@ -7,6 +7,7 @@ export const useExpenseModal = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loadingState, setLoadingState] = useState(false);
+  const disabledForm = Boolean(error) || Boolean(success) || loadingState;
   const budgets = useGetBudgets();
 
   return {
@@ -18,6 +19,7 @@ export const useExpenseModal = () => {
     success,
     loading: loadingState,
     setLoading: (state: boolean) => setLoadingState(state),
+    disabledForm,
     budgets,
   };
 };

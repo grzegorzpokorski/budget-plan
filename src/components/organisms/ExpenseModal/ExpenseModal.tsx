@@ -30,6 +30,7 @@ export const ExpenseModal = () => {
     setErrorMessage,
     loading,
     setLoading,
+    disabledForm,
   } = useExpenseModal();
   const {
     register,
@@ -77,15 +78,13 @@ export const ExpenseModal = () => {
     }
   };
 
-  const disabled = Boolean(error) || Boolean(success);
-
   return (
     <Modal
       title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
       closeModal={closeModal}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
-        <fieldset disabled={disabled}>
+        <fieldset disabled={disabledForm}>
           <div className="w-full">
             <Input
               type="text"
