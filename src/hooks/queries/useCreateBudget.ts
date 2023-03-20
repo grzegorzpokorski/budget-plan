@@ -1,7 +1,8 @@
 import { queryClient } from "@/lib/queryClient";
-import { budgetFormSchema } from "@/shemas/forms";
+import { budgetShema, budgetsSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 export const createBudgetQuery = async ({
   budget,
@@ -14,13 +15,22 @@ export const createBudgetQuery = async ({
   await fetcher({
     url: `/api/budgets`,
     method: "POST",
-    schema: budgetFormSchema,
+    schema: budgetShema,
     body: budget,
   });
 
 export const useCreateBudget = () => {
   return useMutation({
     mutationFn: createBudgetQuery,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["budgets"] }),
+    onSuccess: (createdBudget) => {
+      queryClient.setQueryData<z.infer<typeof budgetsSchema>>(
+        ["budgets"],
+        (prev) => {
+          return prev
+            ? { ...prev, budgets: [...prev.budgets, createdBudget] }
+            : prev;
+        },
+      );
+    },
   });
 };

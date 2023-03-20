@@ -1,7 +1,8 @@
 import { queryClient } from "@/lib/queryClient";
-import { budgetShema } from "@/shemas/queries";
+import { budgetShema, budgetsSchema, expensesSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
+import { z } from "zod";
 
 export const deleteBudgetQuery = async ({ id }: { id: number }) =>
   await fetcher({
@@ -13,10 +14,38 @@ export const deleteBudgetQuery = async ({ id }: { id: number }) =>
 export const useDeleteBudget = () => {
   return useMutation({
     mutationFn: deleteBudgetQuery,
-    onSuccess: () =>
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["budgets"] }),
-        queryClient.invalidateQueries({ queryKey: ["expenses"] }),
-      ]),
+    onSuccess: (deletedBudget) => {
+      queryClient.setQueryData<z.infer<typeof budgetsSchema>>(
+        ["budgets"],
+        (prev) => {
+          return prev
+            ? {
+                ...prev,
+                budgets: [
+                  ...prev.budgets.filter(
+                    (budget) => budget.id !== deletedBudget.id,
+                  ),
+                ],
+              }
+            : prev;
+        },
+      );
+
+      queryClient.setQueryData<z.infer<typeof expensesSchema>>(
+        ["expenses"],
+        (prev) => {
+          return prev
+            ? {
+                ...prev,
+                expenses: [
+                  ...prev.expenses.filter(
+                    (expense) => expense.budgetId !== deletedBudget.id,
+                  ),
+                ],
+              }
+            : prev;
+        },
+      );
+    },
   });
 };

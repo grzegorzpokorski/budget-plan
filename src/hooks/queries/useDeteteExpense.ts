@@ -1,6 +1,7 @@
-import { queryClient } from "@/lib/queryClient";
-import { expenseSchema } from "@/shemas/queries";
+import { z } from "zod";
+import { expenseSchema, expensesSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
+import { queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 
 export const deleteExpenseQuery = async ({ id }: { id: number }) =>
@@ -13,6 +14,19 @@ export const deleteExpenseQuery = async ({ id }: { id: number }) =>
 export const useDeleteExpense = () => {
   return useMutation({
     mutationFn: deleteExpenseQuery,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["expenses"] }),
+    onSuccess: (deletedExpense) =>
+      queryClient.setQueryData<z.infer<typeof expensesSchema>>(
+        ["expenses"],
+        (prev) => {
+          return prev
+            ? {
+                ...prev,
+                expenses: prev.expenses.filter(
+                  (prevItem) => prevItem.id !== deletedExpense.id,
+                ),
+              }
+            : prev;
+        },
+      ),
   });
 };

@@ -1,6 +1,7 @@
-import { queryClient } from "@/lib/queryClient";
-import { budgetShema } from "@/shemas/queries";
+import { z } from "zod";
+import { budgetShema, budgetsSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
+import { queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 
 export const updateBudgetQuery = async ({
@@ -23,10 +24,22 @@ export const updateBudgetQuery = async ({
 export const useUpdateBudget = () => {
   return useMutation({
     mutationFn: updateBudgetQuery,
-    onSuccess: () =>
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["budgets"] }),
-        queryClient.invalidateQueries({ queryKey: ["expenses"] }),
-      ]),
+    onSuccess: (updatedBudget) => {
+      queryClient.setQueryData<z.infer<typeof budgetsSchema>>(
+        ["budgets"],
+        (prev) => {
+          return prev
+            ? {
+                ...prev,
+                budgets: prev.budgets.map((prevItem) =>
+                  prevItem.id === updatedBudget.id ? updatedBudget : prevItem,
+                ),
+              }
+            : prev;
+        },
+      );
+    },
+    onSettled: () =>
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["expenses"] })]),
   });
 };
