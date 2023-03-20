@@ -7,6 +7,7 @@ import { useUpdateExpense } from "@/hooks/queries/useUpdateExpense";
 import { useDeleteExpense } from "@/hooks/queries/useDeteteExpense";
 import { budgetShema } from "@/shemas/queries";
 import { expenseFormSchema } from "@/shemas/forms";
+import { queryClient } from "@/lib/queryClient";
 
 type Budget = z.infer<typeof budgetShema>;
 type ExpenseFromForm = z.infer<typeof expenseFormSchema>;
@@ -18,14 +19,11 @@ export const useExpenseModal = () => {
   const [loading, setLoading] = useState(false);
   const [wasEdited, setWasEdited] = useState(false);
 
-  const [budgets, setBudgets] = useState<Budget[] | null>(null);
   const getBudgetsHook = useGetBudgets();
-  useEffect(() => {
-    if (getBudgetsHook.data) setBudgets(getBudgetsHook.data.budgets);
-  }, [getBudgetsHook.data]);
+  const budgets = getBudgetsHook.data?.budgets;
 
   const disabledForm =
-    Boolean(error) || Boolean(success) || loading || budgets === null;
+    Boolean(error) || Boolean(success) || loading || budgets === undefined;
 
   const createExpenseHook = useCreateExpense();
   const createExpense = ({ data }: { data: ExpenseFromForm }) => {
