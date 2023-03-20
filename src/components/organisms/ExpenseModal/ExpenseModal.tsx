@@ -12,10 +12,6 @@ import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { Loader } from "@/components/molecules/Loader/loader";
 import { useExpenseModal } from "@/hooks/useExpenseModal";
-import { useGetBudgets } from "@/hooks/useGetBudgets";
-import { useCreateExpense } from "@/hooks/useCreateExpense";
-import { useUpdateExpense } from "@/hooks/useUpdateExpense";
-import { useDeleteExpense } from "@/hooks/useDeteteExpense";
 
 type InputsType = z.infer<typeof expenseFormSchema>;
 
@@ -25,12 +21,14 @@ export const ExpenseModal = () => {
     budgets,
     closeModal,
     success,
-    setSuccessMessage,
     error,
-    setErrorMessage,
     loading,
-    setLoading,
     disabledForm,
+    createExpense,
+    updateExpense,
+    deleteExpense,
+    formWasEdited,
+    setFormWasEdited,
   } = useExpenseModal();
   const {
     register,
@@ -40,41 +38,13 @@ export const ExpenseModal = () => {
     resolver: zodResolver(expenseFormSchema),
   });
 
-  const createExpense = useCreateExpense();
-  const updateExpense = useUpdateExpense();
-  const deleteExpense = useDeleteExpense();
-
   const onSubmit: SubmitHandler<InputsType> = (data) => {
-    setLoading(true);
-
     if (!modalData) {
-      createExpense.mutate(
-        { expense: data },
-        {
-          onSuccess: () => {
-            setSuccessMessage(`Pomyślnie dodano nowy wydatek: "${data.title}"`);
-          },
-          onError: () => {
-            setErrorMessage(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
-          },
-          onSettled: () => setLoading(false),
-        },
-      );
+      createExpense({ data });
     }
 
     if (modalData) {
-      updateExpense.mutate(
-        { id: modalData.id, expense: data },
-        {
-          onSuccess: () => {
-            setSuccessMessage(`Pomyślnie zaktualizowano wydatek.`);
-          },
-          onError: () => {
-            setErrorMessage(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
-          },
-          onSettled: () => setLoading(false),
-        },
-      );
+      updateExpense({ id: modalData.id, data });
     }
   };
 
@@ -83,7 +53,11 @@ export const ExpenseModal = () => {
       title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
       closeModal={closeModal}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col pt-6">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onChange={() => setFormWasEdited(true)}
+        className="flex flex-col pt-6"
+      >
         <fieldset disabled={disabledForm}>
           <div className="w-full">
             <Input
@@ -109,7 +83,7 @@ export const ExpenseModal = () => {
               defaultValue={modalData?.amount}
             />
           </div>
-          {budgets.data?.budgets && (
+          {budgets && (
             <div className="w-full">
               <Select
                 label="Wybierz budżet"
@@ -117,7 +91,7 @@ export const ExpenseModal = () => {
                 isError={Boolean(errors.budgetId)}
                 errormessage={errors.budgetId?.message || ""}
                 defaultValue={modalData?.budgetId}
-                options={budgets.data?.budgets.map((option) => ({
+                options={budgets.map((option) => ({
                   label: option.name,
                   value: option.id,
                 }))}
@@ -139,31 +113,9 @@ export const ExpenseModal = () => {
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={() => {
-                  const confirmed = confirm(
-                    `Czy potwierdzasz usunięcie wydatku ${modalData.title}?`,
-                  );
-
-                  if (!confirmed) return;
-
-                  setLoading(true);
-                  deleteExpense.mutate(
-                    { id: modalData.id },
-                    {
-                      onSuccess: () => {
-                        setSuccessMessage(
-                          `Pomyślnie usunięto wydatek "${modalData.title}".`,
-                        );
-                      },
-                      onError: () => {
-                        setErrorMessage(
-                          `Coś poszło nie tak. Spróbuj ponownie póżniej.`,
-                        );
-                      },
-                      onSettled: () => setLoading(false),
-                    },
-                  );
-                }}
+                onClick={() =>
+                  deleteExpense({ id: modalData.id, title: modalData.title })
+                }
               >
                 Usuń
               </Button>
@@ -172,7 +124,11 @@ export const ExpenseModal = () => {
                 Reset
               </Button>
             )}
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={Boolean(modalData) && !formWasEdited}
+            >
               {modalData ? "Aktualizuj" : "Dodaj"}
             </Button>
           </div>

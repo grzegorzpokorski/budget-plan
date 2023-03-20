@@ -1,8 +1,12 @@
+import { z } from "zod";
 import { useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
 import { useCreateBudget } from "@/hooks/useCreateBudget";
 import { useUpdateBudget } from "@/hooks/useUpdateBudget";
 import { useDeleteBudget } from "@/hooks/useDeleteBudget";
+import { budgetFormSchema } from "@/shemas/forms";
+
+type BudgetFromForm = z.infer<typeof budgetFormSchema>;
 
 export const useBudgetModal = () => {
   const { budgetModalData, closeBudgetModal } = useUIContext();
@@ -13,11 +17,7 @@ export const useBudgetModal = () => {
   const disabledForm = Boolean(error) || Boolean(success) || loadingState;
 
   const createBudgetHook = useCreateBudget();
-  const createBudget = ({
-    data,
-  }: {
-    data: { name: string; maxAmount: number };
-  }) => {
+  const createBudget = ({ data }: { data: BudgetFromForm }) => {
     setLoadingState(true);
     createBudgetHook.mutate(
       { budget: data },
@@ -36,13 +36,7 @@ export const useBudgetModal = () => {
   };
 
   const updateBudgetHook = useUpdateBudget();
-  const updateBudget = ({
-    id,
-    data,
-  }: {
-    id: number;
-    data: { name: string; maxAmount: number };
-  }) => {
+  const updateBudget = ({ id, data }: { id: number; data: BudgetFromForm }) => {
     setLoadingState(true);
     updateBudgetHook.mutate(
       { id, budget: data },
