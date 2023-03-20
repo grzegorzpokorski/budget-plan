@@ -1,6 +1,6 @@
 import { Budget } from "@/components/molecules/Budget/Budget";
 import { Loader } from "@/components/molecules/Loader/loader";
-import { useGetBudgets } from "@/hooks/useGetBudgets";
+import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
 
 export const Budgets = () => {
   const { data, isSuccess, isError } = useGetBudgets();

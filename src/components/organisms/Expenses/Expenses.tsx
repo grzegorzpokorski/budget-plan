@@ -1,6 +1,6 @@
 import { Expense } from "@/components/molecules/Expense/Expense";
 import { Loader } from "@/components/molecules/Loader/loader";
-import { useGetExpenses } from "@/hooks/useGetExpenses";
+import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
 import { formatDate } from "@/utils/formatDate";
 
 export const Expenses = () => {

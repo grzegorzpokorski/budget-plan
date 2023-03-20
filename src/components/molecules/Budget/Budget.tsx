@@ -1,12 +1,12 @@
 "use client";
 
 import { Button } from "@/components/atoms/Button/Button";
-import { useGetExpenses } from "@/hooks/useGetExpenses";
+import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
 import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { FaEdit } from "react-icons/fa";
-import { Progressbar } from "../../atoms/Progressbar/Progressbar";
-import { Loader } from "../Loader/loader";
+import { Progressbar } from "@/components/atoms/Progressbar/Progressbar";
+import { Loader } from "@/components/molecules/Loader/loader";
 
 type Props = {
   id: number;

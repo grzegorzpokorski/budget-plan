@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/atoms/Button/Button";
 import { Container } from "@/components/atoms/Container/Container";
-import { useGetBudgets } from "@/hooks/useGetBudgets";
+import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
 import { useUIContext } from "@/providers/UIProvider";
 import { signOut } from "next-auth/react";
 import {

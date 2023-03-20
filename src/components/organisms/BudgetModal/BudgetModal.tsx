@@ -9,7 +9,7 @@ import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { Loader } from "@/components/molecules/Loader/loader";
-import { useBudgetModal } from "@/hooks/useBudgetModal";
+import { useBudgetModal } from "./useBudgetModal";
 
 type InputsType = z.infer<typeof budgetFormSchema>;
 

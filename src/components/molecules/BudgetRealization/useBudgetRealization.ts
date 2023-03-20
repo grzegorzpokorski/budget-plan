@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useGetBudgets } from "./useGetBudgets";
-import { useGetExpenses } from "./useGetExpenses";
+import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
+import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
 
 export const useBudgetRealization = () => {
   const [max, setMax] = useState(0);

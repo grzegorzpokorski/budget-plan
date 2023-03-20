@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
-import { useGetBudgets } from "@/hooks/useGetBudgets";
-import { useCreateExpense } from "@/hooks/useCreateExpense";
-import { useUpdateExpense } from "@/hooks/useUpdateExpense";
-import { useDeleteExpense } from "@/hooks/useDeteteExpense";
+import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
+import { useCreateExpense } from "@/hooks/queries/useCreateExpense";
+import { useUpdateExpense } from "@/hooks/queries/useUpdateExpense";
+import { useDeleteExpense } from "@/hooks/queries/useDeteteExpense";
 import { budgetShema } from "@/shemas/queries";
 import { expenseFormSchema } from "@/shemas/forms";
 

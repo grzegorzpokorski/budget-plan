@@ -2,10 +2,10 @@
 
 import { Button } from "@/components/atoms/Button/Button";
 import { Progressbar } from "@/components/atoms/Progressbar/Progressbar";
-import { useBudgetRealization } from "@/hooks/useBudgetRealization";
+import { useBudgetRealization } from "./useBudgetRealization";
 import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
-import { Loader } from "../Loader/loader";
+import { Loader } from "@/components/molecules/Loader/loader";
 
 type Props = {
   name: string;

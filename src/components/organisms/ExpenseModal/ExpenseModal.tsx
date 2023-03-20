@@ -11,7 +11,7 @@ import { Textarea } from "@/components/molecules/Textarea/Textarea";
 import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { Loader } from "@/components/molecules/Loader/loader";
-import { useExpenseModal } from "@/hooks/useExpenseModal";
+import { useExpenseModal } from "./useExpenseModal";
 
 type InputsType = z.infer<typeof expenseFormSchema>;
 

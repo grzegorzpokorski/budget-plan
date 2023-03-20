@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
-import { useCreateBudget } from "@/hooks/useCreateBudget";
-import { useUpdateBudget } from "@/hooks/useUpdateBudget";
-import { useDeleteBudget } from "@/hooks/useDeleteBudget";
+import { useCreateBudget } from "@/hooks/queries/useCreateBudget";
+import { useUpdateBudget } from "@/hooks/queries/useUpdateBudget";
+import { useDeleteBudget } from "@/hooks/queries/useDeleteBudget";
 import { budgetFormSchema } from "@/shemas/forms";
 
 type BudgetFromForm = z.infer<typeof budgetFormSchema>;
