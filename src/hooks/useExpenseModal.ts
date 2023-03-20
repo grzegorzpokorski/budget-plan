@@ -17,13 +17,15 @@ export const useExpenseModal = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [wasEdited, setWasEdited] = useState(false);
-  const disabledForm = Boolean(error) || Boolean(success) || loading;
 
   const [budgets, setBudgets] = useState<Budget[] | null>(null);
   const getBudgetsHook = useGetBudgets();
   useEffect(() => {
     if (getBudgetsHook.data) setBudgets(getBudgetsHook.data.budgets);
   }, [getBudgetsHook.data]);
+
+  const disabledForm =
+    Boolean(error) || Boolean(success) || loading || budgets === null;
 
   const createExpenseHook = useCreateExpense();
   const createExpense = ({ data }: { data: ExpenseFromForm }) => {
