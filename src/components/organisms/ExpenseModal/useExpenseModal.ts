@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
 import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
 import { useCreateExpense } from "@/hooks/queries/useCreateExpense";
@@ -7,7 +7,6 @@ import { useUpdateExpense } from "@/hooks/queries/useUpdateExpense";
 import { useDeleteExpense } from "@/hooks/queries/useDeteteExpense";
 import { budgetShema } from "@/shemas/queries";
 import { expenseFormSchema } from "@/shemas/forms";
-import { queryClient } from "@/lib/queryClient";
 
 type Budget = z.infer<typeof budgetShema>;
 type ExpenseFromForm = z.infer<typeof expenseFormSchema>;
