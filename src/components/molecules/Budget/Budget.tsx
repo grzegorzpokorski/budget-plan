@@ -52,5 +52,5 @@ export const Budget = ({ as: Tag = "li", id, name, maxAmount }: Props) => {
     );
   }
 
-  return <Loader />;
+  return null;
 };

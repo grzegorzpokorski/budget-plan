@@ -1,7 +1,7 @@
 import { Expense } from "@/components/molecules/Expense/Expense";
-import { Loader } from "@/components/molecules/Loader/loader";
 import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
 import { formatDate } from "@/utils/formatDate";
+import { Loader } from "./Loader";
 
 export const Expenses = () => {
   const { data, isSuccess, isError } = useGetExpenses();
