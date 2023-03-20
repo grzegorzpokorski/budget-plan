@@ -12,7 +12,7 @@ export const createBudgetQuery = async ({
   };
 }) =>
   await fetcher({
-    url: `/api/budget`,
+    url: `/api/budgets`,
     method: "POST",
     schema: budgetFormSchema,
     body: budget,

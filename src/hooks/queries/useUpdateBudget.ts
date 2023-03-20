@@ -14,7 +14,7 @@ export const updateBudgetQuery = async ({
   };
 }) =>
   await fetcher({
-    url: `/api/budget/${id}`,
+    url: `/api/budgets/${id}`,
     method: "PATCH",
     schema: budgetShema,
     body: budget,

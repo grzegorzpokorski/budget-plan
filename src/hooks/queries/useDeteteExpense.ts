@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 
 export const deleteExpenseQuery = async ({ id }: { id: number }) =>
   await fetcher({
-    url: `/api/expense/${id}`,
+    url: `/api/expenses/${id}`,
     method: "DELETE",
     schema: expenseSchema,
   });

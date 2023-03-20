@@ -14,7 +14,7 @@ export const createExpenseQuery = async ({
   };
 }) =>
   await fetcher({
-    url: `/api/expense`,
+    url: `/api/expenses`,
     method: "POST",
     schema: expenseSchema,
     body: expense,

@@ -16,7 +16,7 @@ export const updateExpenseQuery = async ({
   };
 }) =>
   await fetcher({
-    url: `/api/expense/${id}`,
+    url: `/api/expenses/${id}`,
     method: "PATCH",
     schema: expenseSchema,
     body: expense,
