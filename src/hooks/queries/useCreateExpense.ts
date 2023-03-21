@@ -29,7 +29,7 @@ export const useCreateExpense = () => {
         ["expenses"],
         (prev) => {
           return prev
-            ? { ...prev, expenses: [...prev.expenses, createdExpense] }
+            ? { ...prev, expenses: [createdExpense, ...prev.expenses] }
             : prev;
         },
       );
