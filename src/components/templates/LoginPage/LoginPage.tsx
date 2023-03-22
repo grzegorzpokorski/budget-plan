@@ -15,7 +15,7 @@ type InputsType = {
 };
 
 const loginFormSchema = z.object({
-  email: z.string().email({ message: "Nie poprawny adres email." }),
+  email: z.string().email({ message: "Niepoprawny adres email." }),
 });
 
 export const LoginPage = () => {
