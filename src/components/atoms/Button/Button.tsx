@@ -5,7 +5,7 @@ type ButtonProps = {
   children: ReactNode;
   type?: "button" | "submit" | "reset";
   size?: "default" | "large" | "square";
-  variant?: "default" | "outline" | "white-outline";
+  variant?: "default" | "outline" | "white-outline" | "github";
   disabled?: boolean;
   className?: string;
   onClick?: () => void;
@@ -26,6 +26,9 @@ const variants = {
   ),
   "white-outline": twMerge(
     "bg-transparent hover:bg-white border-2 border-white-500 text-white hover:text-blue-500 focus:text-blue-500",
+  ),
+  github: twMerge(
+    "bg-gray-700 hover:bg-gray-800 text-white disabled:bg-gray-300",
   ),
 } as const;
 

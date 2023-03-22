@@ -5,6 +5,7 @@ type Props = {
   error: boolean;
   id?: string;
   withMarginBottom?: boolean;
+  withMarginTop?: boolean;
   textCenter?: boolean;
 };
 
@@ -13,14 +14,16 @@ export const FormInfo = ({
   error,
   id,
   withMarginBottom,
+  withMarginTop,
   textCenter,
 }: Props) => (
   <p
     id={id}
     className={twMerge(
-      "mt-3 rounded p-3 text-sm",
+      "rounded p-3 text-sm",
       error ? "bg-red-200 text-red-900" : "bg-green-200 text-green-900",
       withMarginBottom && "mb-3",
+      withMarginTop && "mt-3",
       textCenter && "text-center",
     )}
   >

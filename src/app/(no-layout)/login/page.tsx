@@ -1,5 +1,5 @@
-import { LoginForm } from "@/components/molecules/LoginForm/LoginForm";
+import { LoginPage } from "@/components/templates/LoginPage/LoginPage";
 
 export default function Page() {
-  return <LoginForm />;
+  return <LoginPage />;
 }
