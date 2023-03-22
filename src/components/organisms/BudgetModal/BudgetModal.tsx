@@ -107,8 +107,8 @@ export const BudgetModal = () => {
             </Button>
           </div>
         </fieldset>
-        {success && <FormInfo content={success} error={false} />}
-        {error && <FormInfo content={error} error={true} />}
+        {success && <FormInfo content={success} error={false} withMarginTop />}
+        {error && <FormInfo content={error} error={true} withMarginTop />}
         {loading && (
           <div className="mt-4">
             <Loader />
