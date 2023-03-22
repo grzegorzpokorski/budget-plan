@@ -28,4 +28,4 @@ const Item = ({ time }: { time?: boolean }) => (
   </li>
 );
 
-const Time = () => <time className="bg-white h-4 w-36 my-3 rounded"></time>;
+const Time = () => <div className="bg-white h-4 w-36 my-3 rounded"></div>;
