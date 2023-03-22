@@ -95,6 +95,7 @@ export const ExpenseModal = () => {
                   label: option.name,
                   value: option.id,
                 }))}
+                required
               />
             </div>
           )}
