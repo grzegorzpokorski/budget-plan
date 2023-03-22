@@ -1,6 +1,6 @@
 export const Loader = () => (
   <div role="status" className="animate-pulse">
-    <div className="bg-white h-4 w-36 my-3 rounded"></div>
+    <div className="bg-white h-4 w-36 my-3 mx-auto md:mx-0 rounded"></div>
     <div className="list-none flex flex-col gap-4 bg-white divide-y-2 p-6 pt-2 shadow rounded">
       <Item />
       <Item />
