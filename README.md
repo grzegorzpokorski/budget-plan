@@ -49,9 +49,7 @@ pnpm dev
 
 ## Some screenshots:
 
-![](/screenshots/login)
-
-![](/screenshots/2-user-page.png?raw=true)
+![](/screenshots/login.png?raw=true)
 
 ![](/screenshots/home.png?raw=true)
 
