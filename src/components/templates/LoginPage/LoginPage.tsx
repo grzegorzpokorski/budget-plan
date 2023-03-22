@@ -4,7 +4,7 @@ import { Button } from "@/components/atoms/Button/Button";
 import { CenterBox } from "@/components/atoms/CenterBox/CenterBox";
 import { Divider } from "@/components/atoms/Divider/Divider";
 import { Input } from "@/components/molecules/Input/Input";
-import { useRedirectAuthenticated } from "@/hooks/useRedirectAuthenticated";
+import { useRedirect } from "@/hooks/useRedirect";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ const loginFormSchema = z.object({
 });
 
 export const LoginPage = () => {
-  useRedirectAuthenticated({ path: "/" });
+  useRedirect({ when: "authenticated", to: "/" });
   const { status } = useSession();
 
   const {

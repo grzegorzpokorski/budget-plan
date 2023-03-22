@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { CenterBox } from "@/components/atoms/CenterBox/CenterBox";
-import { useRedirectAuthenticated } from "@/hooks/useRedirectAuthenticated";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import { Loader } from "@/components/molecules/Loader/loader";
+import { useRedirect } from "@/hooks/useRedirect";
 
 export const CheckEmailPage = () => {
-  useRedirectAuthenticated({ path: "/" });
+  useRedirect({ when: "authenticated", to: "/" });
   const { status } = useSession();
 
   return (
