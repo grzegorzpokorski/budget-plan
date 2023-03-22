@@ -8,6 +8,10 @@ const rubik = Poppins({
   variable: "--font-poppins",
 });
 
+export const metadata = {
+  title: { default: "Budget Plan", template: "Budget Plan | %s" },
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pl" className={`${rubik.variable} scrollbar-gutter-stable`}>
