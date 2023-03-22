@@ -12,20 +12,23 @@ export const Expenses = () => {
 
   if (isSuccess) {
     return (
-      <ul className="list-none flex flex-col divide-y-2 rounded" role="list">
-        {data.expenses.map((item, idx, arr) => {
-          const currentDate = formatDate(item.createdAt);
-          const nextDate =
-            arr[idx - 1] !== undefined && formatDate(arr[idx - 1].createdAt);
-          return (
-            <Expense
-              key={item.id}
-              {...item}
-              displayDate={currentDate !== nextDate}
-            />
-          );
-        })}
-      </ul>
+      <section>
+        <h2 className="sr-only">Wydatki</h2>
+        <ul className="list-none flex flex-col divide-y-2 rounded" role="list">
+          {data.expenses.map((item, idx, arr) => {
+            const currentDate = formatDate(item.createdAt);
+            const nextDate =
+              arr[idx - 1] !== undefined && formatDate(arr[idx - 1].createdAt);
+            return (
+              <Expense
+                key={item.id}
+                {...item}
+                displayDate={currentDate !== nextDate}
+              />
+            );
+          })}
+        </ul>
+      </section>
     );
   }
   return <Loader />;

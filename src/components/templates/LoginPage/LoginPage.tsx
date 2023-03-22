@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/atoms/Button/Button";
 import { CenterBox } from "@/components/atoms/CenterBox/CenterBox";
+import { Divider } from "@/components/atoms/Divider/Divider";
 import { Input } from "@/components/molecules/Input/Input";
 import { useRedirectAuthenticated } from "@/hooks/useRedirectAuthenticated";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,6 +52,9 @@ export const LoginPage = () => {
             className="flex flex-col"
             disabled={status !== "unauthenticated"}
           >
+            <legend className="sr-only">
+              Zaloguj się podając adres email.
+            </legend>
             <Input
               type="email"
               errormessage={errors.email?.message || ""}
@@ -64,7 +68,7 @@ export const LoginPage = () => {
             <Button type="submit">Zaloguj się emailem</Button>
           </fieldset>
         </form>
-        <hr />
+        <Divider />
         <Button
           variant="github"
           disabled={status !== "unauthenticated"}

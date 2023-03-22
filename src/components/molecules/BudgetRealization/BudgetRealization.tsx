@@ -23,17 +23,17 @@ export const BudgetRealization = ({ name }: Props) => {
   }
 
   return (
-    <div className="pt-0 pb-4 px-6 bg-white rounded shadow">
+    <section className="pt-0 pb-4 px-6 bg-white rounded shadow">
       <div className="flex flex-col gap-2 pt-4">
         <div className="flex flex-row justify-between">
           <h2 className="font-bold">{name}</h2>
-          <div className="font-base text-sm">
+          <output className="font-base text-sm">
             {formatCurrency(current)} /{" "}
             <span className="font-semibold">{formatCurrency(max)}</span>
-          </div>
+          </output>
         </div>
         <Progressbar progress={(current / max) * 100} />
       </div>
-    </div>
+    </section>
   );
 };

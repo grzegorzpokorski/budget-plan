@@ -51,9 +51,9 @@ export const Expense = ({
         )}
       >
         <div className="flex flex-col gap-1 md:gap-4 md:flex-row md:items-center">
-          <div className="font-medium text-red-500 mt-1.5 min-w-[105px]">
+          <p className="font-medium text-red-500 mt-1.5 min-w-[105px]">
             -{formatCurrency(amount)}
-          </div>
+          </p>
           <div className="flex flex-col text-sm mt-1">
             <h3 className="font-bold">{title}</h3>
             <p className="mt-1 text-sm text-gray-500">{budget.name}</p>
