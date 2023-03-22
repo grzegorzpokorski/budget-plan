@@ -47,19 +47,19 @@ pnpm dev
 
 [https://budget-plan-ashy.vercel.app/](https://budget-plan-ashy.vercel.app/)
 
-<!-- ## Some screenshots:
+## Some screenshots:
 
-![](/screenshots/1-login-page.png?raw=true)
+![](/screenshots/login)
 
 ![](/screenshots/2-user-page.png?raw=true)
 
-![](/screenshots/3-edit-note.png?raw=true)
+![](/screenshots/home.png?raw=true)
 
-![](/screenshots/4-add-new-note.png?raw=true)
+![](/screenshots/loading.png?raw=true)
 
-![](/screenshots/5-after-delete-note.png?raw=true)
+![](/screenshots/add-budget.png?raw=true)
 
-![](/screenshots/6-skeleton.png?raw=true) -->
+![](/screenshots/add-expense.png?raw=true)
 
 ## Contributing
 
