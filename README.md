@@ -13,6 +13,8 @@ Application which will help You plan your budget.
 7. next-auth
 8. TanStack Query
 9. mailjet as a SMTP provider
+10. react-hook-form for handling forms
+11. zod for data validation
 
 ## Installation 👷
 
