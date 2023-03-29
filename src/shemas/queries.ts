@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const expenseSchema = z.object({
+export const financeSchema = z.object({
   id: z.number().int().nonnegative(),
   title: z.string().nonempty(),
   amount: z.number().nonnegative(),
@@ -11,21 +11,22 @@ export const expenseSchema = z.object({
   updatedAt: z.string(),
   budget: z.object({
     name: z.string().nonempty(),
+    category: z.enum(["PROFIT", "EXPENSE"]),
   }),
 });
 
-export const expensesSchema = z.object({
-  expenses: z.array(expenseSchema),
+export const financesSchema = z.object({
+  finances: z.array(financeSchema),
 });
 
-export const budgetWithSumOfExpensesSchema = z.object({
+export const budgetWithSumOfFinancesSchema = z.object({
   id: z.number().int().nonnegative(),
   name: z.string().nonempty(),
   maxAmount: z.number().nonnegative(),
   userId: z.string().nonempty(),
   createdAt: z.string(),
   updatedAt: z.string(),
-  sumOfExpenses: z.number().nonnegative(),
+  sumOfFinances: z.number().nonnegative(),
   category: z.enum(["EXPENSE", "PROFIT"]),
 });
 

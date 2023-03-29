@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/atoms/Button/Button";
-import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
+import { useGetFinances } from "@/hooks/queries/useGetFinances";
 import { useUIContext } from "@/providers/UIProvider";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { FaEdit } from "react-icons/fa";
@@ -23,12 +23,12 @@ export const Budget = ({
   category,
 }: Props) => {
   const { openBudgetModal } = useUIContext();
-  const { data, isSuccess, isError } = useGetExpenses();
+  const { data, isSuccess, isError } = useGetFinances();
 
   if (isError) return <p>error budget</p>;
 
   if (isSuccess) {
-    const current = data.expenses.reduce(
+    const current = data.finances.reduce(
       (sum, curr) => (curr.budgetId === id ? sum + curr.amount : sum),
       0,
     );

@@ -2,9 +2,9 @@ import { z } from "zod";
 import { useState } from "react";
 import { useUIContext } from "@/providers/UIProvider";
 import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
-import { useCreateExpense } from "@/hooks/queries/useCreateExpense";
-import { useUpdateExpense } from "@/hooks/queries/useUpdateExpense";
-import { useDeleteExpense } from "@/hooks/queries/useDeteteExpense";
+import { useCreateFinance } from "@/hooks/queries/useCreateFinance";
+import { useUpdateFinance } from "@/hooks/queries/useUpdateFinance";
+import { useDeleteFinance } from "@/hooks/queries/useDeteteFinance";
 import { budgetShema } from "@/shemas/queries";
 import { expenseFormSchema } from "@/shemas/forms";
 
@@ -26,11 +26,11 @@ export const useExpenseModal = () => {
   const disabledForm =
     Boolean(error) || Boolean(success) || loading || budgets === undefined;
 
-  const createExpenseHook = useCreateExpense();
+  const createExpenseHook = useCreateFinance();
   const createExpense = ({ data }: { data: ExpenseFromForm }) => {
     setLoading(true);
     createExpenseHook.mutate(
-      { expense: data },
+      { finance: data },
       {
         onSuccess: () => {
           setSuccess(`Pomyślnie dodano nowy wydatek: "${data.title}"`);
@@ -43,7 +43,7 @@ export const useExpenseModal = () => {
     );
   };
 
-  const updateExpenseHook = useUpdateExpense();
+  const updateFinanceHook = useUpdateFinance();
   const updateExpense = ({
     id,
     data,
@@ -52,8 +52,8 @@ export const useExpenseModal = () => {
     data: ExpenseFromForm;
   }) => {
     setLoading(true);
-    updateExpenseHook.mutate(
-      { id, expense: data },
+    updateFinanceHook.mutate(
+      { id, finance: data },
       {
         onSuccess: () => {
           setSuccess(`Pomyślnie zaktualizowano wydatek.`);
@@ -66,7 +66,7 @@ export const useExpenseModal = () => {
     );
   };
 
-  const deleteExpenseHook = useDeleteExpense();
+  const deleteFinanceHook = useDeleteFinance();
   const deleteExpense = ({ id, title }: { id: number; title: string }) => {
     setLoading(true);
     const confirmed = confirm(`Czy potwierdzasz usunięcie wydatku ${title}?`);
@@ -74,7 +74,7 @@ export const useExpenseModal = () => {
     if (!confirmed) return setLoading(false);
 
     setLoading(true);
-    deleteExpenseHook.mutate(
+    deleteFinanceHook.mutate(
       { id },
       {
         onSuccess: () => {

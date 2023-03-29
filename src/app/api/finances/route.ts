@@ -13,7 +13,7 @@ export const GET = async (request: Request) => {
     );
   }
 
-  const expenses = await prisma.expense.findMany({
+  const finances = await prisma.finance.findMany({
     where: {
       userId: session.user.id,
     },
@@ -21,6 +21,7 @@ export const GET = async (request: Request) => {
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },
@@ -31,7 +32,7 @@ export const GET = async (request: Request) => {
 
   return new Response(
     JSON.stringify({
-      expenses,
+      finances,
     }),
     {
       status: 200,
@@ -39,7 +40,7 @@ export const GET = async (request: Request) => {
   );
 };
 
-const newExpenseSchema = z.object({
+const newFinanceSchema = z.object({
   title: z.string(),
   amount: z.coerce.number(),
   budgetId: z.coerce.number().int(),
@@ -55,7 +56,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const requestBody = newExpenseSchema.safeParse(await request.json());
+  const requestBody = newFinanceSchema.safeParse(await request.json());
   if (!requestBody.success) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
@@ -63,7 +64,7 @@ export const POST = async (request: NextRequest) => {
     );
   }
 
-  const createExpense = await prisma.expense.create({
+  const createFinance = await prisma.finance.create({
     data: {
       title: requestBody.data.title,
       amount: requestBody.data.amount,
@@ -80,14 +81,14 @@ export const POST = async (request: NextRequest) => {
     },
   });
 
-  if (!createExpense) {
+  if (!createFinance) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
       { status: 400 },
     );
   }
 
-  return new Response(JSON.stringify({ ...createExpense }), {
+  return new Response(JSON.stringify({ ...createFinance }), {
     status: 201,
   });
 };

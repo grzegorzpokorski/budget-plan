@@ -40,6 +40,6 @@ export const useUpdateBudget = () => {
       );
     },
     onSettled: () =>
-      Promise.all([queryClient.invalidateQueries({ queryKey: ["expenses"] })]),
+      Promise.all([queryClient.invalidateQueries({ queryKey: ["finances"] })]),
   });
 };

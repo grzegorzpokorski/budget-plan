@@ -5,7 +5,7 @@ import { Private } from "@/components/atoms/Private/Private";
 import { BudgetRealization } from "@/components/molecules/BudgetRealization/BudgetRealization";
 import { MainHeader } from "@/components/molecules/MainHeader/MainHeader";
 import { Budgets } from "@/components/organisms/Budgets/Budgets";
-import { Expenses } from "@/components/organisms/Expenses/Expenses";
+import { Finances } from "@/components/organisms/Finances/Finances";
 import { Modals } from "@/components/organisms/Modals/Modals";
 
 export const HomePage = () => (
@@ -14,7 +14,7 @@ export const HomePage = () => (
     <Container className="flex flex-col py-8">
       <BudgetRealization name="Realizacja" />
       <Budgets />
-      <Expenses />
+      <Finances />
     </Container>
     <Modals />
   </Private>
