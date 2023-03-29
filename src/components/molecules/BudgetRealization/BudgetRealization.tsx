@@ -28,7 +28,7 @@ export const BudgetRealization = () => {
       <header className="sr-only">
         <h2>Podsumowanie</h2>
       </header>
-      <div className="col-span-2 xs:col-span-1 flex flex-row sm:flex-col flex-wrap gap-2 items-center text-center justify-between p-6 bg-white rounded shadow">
+      <div className="col-span-2 sm:col-span-1 flex flex-row sm:flex-col flex-wrap gap-2 items-center text-center justify-between p-6 bg-white rounded shadow">
         <h3 className="font-bold">Suma wydatków</h3>
         <p className="font-medium text-red-500">
           -{formatCurrency(sumOfExpenses)}
@@ -40,7 +40,7 @@ export const BudgetRealization = () => {
           {formatCurrency(sumOfProfits)}
         </p>
       </div>
-      <div className="col-span-2 sm:col-span-1 flex flex-row sm:flex-col flex-wrap gap-2 items-center text-center justify-between p-6 bg-white rounded shadow">
+      <div className="col-span-2 sm:col-span-2 md:col-span-1 flex flex-row sm:flex-col flex-wrap gap-2 items-center text-center justify-between p-6 bg-white rounded shadow">
         <h3 className="font-bold">Podsumowanie</h3>
         <p
           className={twMerge(
