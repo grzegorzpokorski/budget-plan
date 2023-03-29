@@ -12,7 +12,7 @@ type ButtonProps = {
 };
 
 const defaultStyles = twMerge(
-  "inline-flex gap-1.5 justify-center items-center rounded text-white transition-colors",
+  "inline-flex gap-1.5 justify-center items-center rounded text-white transition-colors whitespace-nowrap",
   "disabled:cursor-not-allowed",
 );
 

@@ -13,6 +13,7 @@ type ExpensesItemProps = {
   amount: number;
   budget: {
     name: string;
+    category: "PROFIT" | "EXPENSE";
   };
   budgetId: number;
   description: string;
@@ -22,7 +23,7 @@ type ExpensesItemProps = {
   displayDate: boolean;
 };
 
-export const Expense = ({
+export const Finance = ({
   id,
   title,
   amount,
@@ -32,7 +33,7 @@ export const Expense = ({
   createdAt,
   displayDate,
 }: ExpensesItemProps) => {
-  const { openExpenseModal } = useUIContext();
+  const { openFinanceModal } = useUIContext();
 
   return (
     <li className="flex flex-col items-center md:items-start justify-start w-full">
@@ -51,8 +52,13 @@ export const Expense = ({
         )}
       >
         <div className="flex flex-col gap-1 md:gap-4 md:flex-row md:items-center">
-          <p className="font-medium text-red-500 mt-1.5 min-w-[105px]">
-            -{formatCurrency(amount)}
+          <p
+            className={twMerge(
+              "font-medium mt-1.5 min-w-[105px]",
+              budget.category === "EXPENSE" ? "text-red-500" : "text-green-500",
+            )}
+          >
+            {budget.category === "EXPENSE" ? "-" : "+"} {formatCurrency(amount)}
           </p>
           <div className="flex flex-col text-sm mt-1">
             <h3 className="font-bold">{title}</h3>
@@ -63,13 +69,16 @@ export const Expense = ({
           <Button
             size="square"
             onClick={() =>
-              openExpenseModal({
-                id,
-                title,
-                amount,
-                budgetName: budget.name,
-                budgetId,
-                description,
+              openFinanceModal({
+                category: budget.category,
+                modalData: {
+                  id,
+                  title,
+                  amount,
+                  budgetName: budget.name,
+                  budgetId,
+                  description,
+                },
               })
             }
           >

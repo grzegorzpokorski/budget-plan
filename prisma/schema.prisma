@@ -45,7 +45,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   Budget        Budget[]
-  Expense       Expense[]
+  Finance       Finance[]
 }
 
 model VerificationToken {
@@ -57,17 +57,23 @@ model VerificationToken {
 }
 
 model Budget {
-  id        Int       @id @default(autoincrement())
+  id        Int             @id @default(autoincrement())
   name      String
   maxAmount Float
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  Expense   Expense[]
-  createdAt DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime  @updatedAt() @db.Timestamptz(6)
+  category  FinanceCategory
+  Finance   Finance[]
+  createdAt DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime        @updatedAt() @db.Timestamptz(6)
 }
 
-model Expense {
+enum FinanceCategory {
+  EXPENSE
+  PROFIT
+}
+
+model Finance {
   id          Int      @id @default(autoincrement())
   title       String
   amount      Float

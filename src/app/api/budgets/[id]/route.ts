@@ -39,7 +39,7 @@ export const GET = async (
     );
   }
 
-  const sumOfExpenses = await prisma.expense.aggregate({
+  const sumOfExpenses = await prisma.finance.aggregate({
     where: {
       userId: session.user.id,
       budgetId: budget.id,
@@ -101,6 +101,7 @@ export const DELETE = async (
 const patchBudgetSchemaBody = z.object({
   name: z.string(),
   maxAmount: z.coerce.number(),
+  category: z.enum(["EXPENSE", "PROFIT"]),
 });
 
 export const PATCH = async (

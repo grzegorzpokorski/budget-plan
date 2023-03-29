@@ -1,39 +1,29 @@
 import { useEffect, useState } from "react";
-import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
-import { useGetExpenses } from "@/hooks/queries/useGetExpenses";
+import { useGetFinances } from "@/hooks/queries/useGetFinances";
 
 export const useBudgetRealization = () => {
-  const [max, setMax] = useState(0);
-  const [current, setCurrent] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const budgets = useGetBudgets();
-  const expenses = useGetExpenses();
+  const [sumOfExpenses, setSumOfExpenses] = useState(0);
+  const [sumOfProfits, setSumOfProfits] = useState(0);
+  const finances = useGetFinances();
 
   useEffect(() => {
-    if (budgets.status !== "loading" && expenses.status !== "loading") {
-      setLoading(false);
-    }
-  }, [budgets.status, expenses.status]);
-
-  useEffect(() => {
-    if (budgets.status === "success" && budgets.data) {
-      setMax(
-        budgets.data.budgets.reduce((sum, curr) => sum + curr.maxAmount, 0),
+    if (finances.status === "success" && finances.data) {
+      setSumOfExpenses(
+        finances.data.finances
+          .filter((item) => item.budget.category === "EXPENSE")
+          .reduce((sum, curr) => sum + curr.amount, 0),
+      );
+      setSumOfProfits(
+        finances.data.finances
+          .filter((item) => item.budget.category === "PROFIT")
+          .reduce((sum, curr) => sum + curr.amount, 0),
       );
     }
-  }, [budgets.data, budgets.status]);
-
-  useEffect(() => {
-    if (expenses.status === "success" && expenses.data) {
-      setCurrent(
-        expenses.data.expenses.reduce((sum, curr) => sum + curr.amount, 0),
-      );
-    }
-  }, [expenses.data, expenses.status]);
+  }, [finances.data, finances.status]);
 
   return {
-    current,
-    max,
-    loading,
+    sumOfProfits,
+    sumOfExpenses,
+    status: finances.status,
   };
 };

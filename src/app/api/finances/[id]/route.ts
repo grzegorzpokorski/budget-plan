@@ -26,7 +26,7 @@ export const GET = async (
     );
   }
 
-  const expense = await prisma.expense.findFirst({
+  const finance = await prisma.finance.findFirst({
     where: {
       id: requestedId.data,
       userId: session.user.id,
@@ -40,14 +40,14 @@ export const GET = async (
     },
   });
 
-  if (!expense) {
+  if (!finance) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  return new Response(JSON.stringify({ expense }), {
+  return new Response(JSON.stringify({ finance }), {
     status: 200,
   });
 };
@@ -72,21 +72,21 @@ export const DELETE = async (
     );
   }
 
-  const sessionUserHaveThisExpense = await prisma.expense.findFirst({
+  const sessionUserHaveThisFinance = await prisma.finance.findFirst({
     where: {
       id: requestedId.data,
       userId: session.user.id,
     },
   });
 
-  if (!sessionUserHaveThisExpense) {
+  if (!sessionUserHaveThisFinance) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  const deletedExpense = await prisma.expense.delete({
+  const deletedFinance = await prisma.finance.delete({
     where: {
       id: requestedId.data,
     },
@@ -94,24 +94,25 @@ export const DELETE = async (
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },
   });
 
-  if (!deletedExpense) {
+  if (!deletedFinance) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  return new Response(JSON.stringify({ ...deletedExpense }), {
+  return new Response(JSON.stringify({ ...deletedFinance }), {
     status: 200,
   });
 };
 
-export const patchExpenseSchemaBody = z.object({
+export const patchFinanceSchemaBody = z.object({
   title: z.string(),
   amount: z.coerce.number(),
   budgetId: z.coerce.number().int(),
@@ -131,7 +132,7 @@ export const PATCH = async (
   }
 
   const requestedId = requestedIdSchema.safeParse(parseInt(context.params.id));
-  const requestBody = patchExpenseSchemaBody.safeParse(await request.json());
+  const requestBody = patchFinanceSchemaBody.safeParse(await request.json());
 
   if (!requestedId.success || !requestBody.success) {
     return new Response(
@@ -140,21 +141,21 @@ export const PATCH = async (
     );
   }
 
-  const sessionUserHaveThisExpense = await prisma.expense.findFirst({
+  const sessionUserHaveThisFinance = await prisma.finance.findFirst({
     where: {
       id: requestedId.data,
       userId: session.user.id,
     },
   });
 
-  if (!sessionUserHaveThisExpense) {
+  if (!sessionUserHaveThisFinance) {
     return new Response(
       JSON.stringify({ statusCode: 404, error: "Not found" }),
       { status: 404 },
     );
   }
 
-  const updatedExpense = await prisma.expense.update({
+  const updatedFinance = await prisma.finance.update({
     where: {
       id: requestedId.data,
     },
@@ -163,19 +164,20 @@ export const PATCH = async (
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },
   });
 
-  if (!updatedExpense) {
+  if (!updatedFinance) {
     return new Response(
       JSON.stringify({ statusCode: 400, error: "Bad request" }),
       { status: 400 },
     );
   }
 
-  return new Response(JSON.stringify({ ...updatedExpense }), {
+  return new Response(JSON.stringify({ ...updatedFinance }), {
     status: 200,
   });
 };

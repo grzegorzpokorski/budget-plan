@@ -13,9 +13,10 @@ type BudgetModalData = {
   id: number;
   name: string;
   maxAmount: number;
+  category: string;
 };
 
-type ExpenseModalData = {
+type FinanceModalData = {
   id: number;
   title: string;
   amount: number;
@@ -24,44 +25,65 @@ type ExpenseModalData = {
   description: string;
 };
 
+export type FinanceModalType = "PROFIT" | "EXPENSE";
+
 type UIProviderValue = {
-  isExpenseModalOpen: boolean;
-  openExpenseModal: (modalData?: ExpenseModalData) => void;
-  closeExpenseModal: () => void;
+  isFinanceModalOpen: boolean;
+  openFinanceModal: ({
+    category,
+    modalData,
+  }: {
+    category: FinanceModalType;
+    modalData?: FinanceModalData;
+  }) => void;
+  closeFinanceModal: () => void;
   isBudgetModalOpen: boolean;
   openBudgetModal: (modalData?: BudgetModalData) => void;
   closeBudgetModal: () => void;
-  expenseModalData: ExpenseModalData | null;
+  financeModalData: FinanceModalData | null;
   budgetModalData: BudgetModalData | null;
   clearBudgetModal: () => void;
-  clearExpenseModal: () => void;
+  clearFinanceModal: () => void;
+  financeModalType: FinanceModalType;
 };
 
 const UIContext = createContext<UIProviderValue | null>(null);
 
 export const UIProvider = ({ children }: { children: ReactNode }) => {
-  const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+  const [isFinanceModalOpen, setIsFinanceModalOpen] = useState(false);
   const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
-  const [expenseModalData, setExpenseModalData] =
-    useState<ExpenseModalData | null>(null);
+  const [financeModalData, setFinanceModalData] =
+    useState<FinanceModalData | null>(null);
   const [budgetModalData, setBudgetModalData] =
     useState<BudgetModalData | null>(null);
+  const [financeModalType, setFinanceModalType] =
+    useState<FinanceModalType>("EXPENSE");
 
-  const openExpenseModal = useCallback((modalData?: ExpenseModalData) => {
-    document.body.classList.add("overflow-hidden");
-    if (modalData) setExpenseModalData(modalData);
-    setIsExpenseModalOpen(true);
+  const openFinanceModal = useCallback(
+    ({
+      category,
+      modalData,
+    }: {
+      category: FinanceModalType;
+      modalData?: FinanceModalData;
+    }) => {
+      document.body.classList.add("overflow-hidden");
+      setFinanceModalType(category);
+      if (modalData) setFinanceModalData(modalData);
+      setIsFinanceModalOpen(true);
+    },
+    [],
+  );
+
+  const clearFinanceModal = useCallback(() => {
+    setFinanceModalData(null);
   }, []);
 
-  const clearExpenseModal = useCallback(() => {
-    setExpenseModalData(null);
-  }, []);
-
-  const closeExpenseModal = useCallback(() => {
+  const closeFinanceModal = useCallback(() => {
     document.body.classList.remove("overflow-hidden");
-    setIsExpenseModalOpen(false);
-    clearExpenseModal();
-  }, [clearExpenseModal]);
+    setIsFinanceModalOpen(false);
+    clearFinanceModal();
+  }, [clearFinanceModal]);
 
   const openBudgetModal = useCallback((modalData?: BudgetModalData) => {
     document.body.classList.add("overflow-hidden");
@@ -83,26 +105,28 @@ export const UIProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       budgetModalData,
       clearBudgetModal,
-      clearExpenseModal,
+      clearFinanceModal,
       closeBudgetModal,
-      closeExpenseModal,
-      expenseModalData,
+      closeFinanceModal,
+      financeModalData,
       isBudgetModalOpen,
-      isExpenseModalOpen,
+      isFinanceModalOpen,
       openBudgetModal,
-      openExpenseModal,
+      openFinanceModal,
+      financeModalType,
     }),
     [
       budgetModalData,
       clearBudgetModal,
-      clearExpenseModal,
+      clearFinanceModal,
       closeBudgetModal,
-      closeExpenseModal,
-      expenseModalData,
+      closeFinanceModal,
+      financeModalData,
       isBudgetModalOpen,
-      isExpenseModalOpen,
+      isFinanceModalOpen,
       openBudgetModal,
-      openExpenseModal,
+      openFinanceModal,
+      financeModalType,
     ],
   );
 

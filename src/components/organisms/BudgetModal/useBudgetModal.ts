@@ -15,6 +15,10 @@ export const useBudgetModal = () => {
   const [loadingState, setLoadingState] = useState(false);
   const [wasEdited, setWasEdited] = useState(false);
   const disabledForm = Boolean(error) || Boolean(success) || loadingState;
+  const budgetCategories = [
+    { label: "Zyski", value: "PROFIT" },
+    { label: "Wydatki", value: "EXPENSE" },
+  ];
 
   const createBudgetHook = useCreateBudget();
   const createBudget = ({ data }: { data: BudgetFromForm }) => {
@@ -87,5 +91,6 @@ export const useBudgetModal = () => {
     createBudget,
     updateBudget,
     deleteBudget,
+    budgetCategories,
   };
 };
