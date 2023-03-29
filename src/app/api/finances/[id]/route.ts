@@ -94,6 +94,7 @@ export const DELETE = async (
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },
@@ -163,6 +164,7 @@ export const PATCH = async (
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },

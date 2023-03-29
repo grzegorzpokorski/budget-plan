@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { expenseFormSchema } from "@/shemas/forms";
+import { financeFormSchema } from "@/shemas/forms";
 import { Modal } from "@/components/molecules/Modal/Modal";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "../../molecules/Input/Input";
@@ -11,11 +11,11 @@ import { Textarea } from "@/components/molecules/Textarea/Textarea";
 import { Select } from "@/components/molecules/Select/Select";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { Loader } from "@/components/molecules/Loader/loader";
-import { useExpenseModal } from "./useExpenseModal";
+import { useFinanceModal } from "./useFinanceModal";
 
-type InputsType = z.infer<typeof expenseFormSchema>;
+type InputsType = z.infer<typeof financeFormSchema>;
 
-export const ExpenseModal = () => {
+export const FinanceModal = () => {
   const {
     modalData,
     budgets,
@@ -24,33 +24,40 @@ export const ExpenseModal = () => {
     error,
     loading,
     disabledForm,
-    createExpense,
-    updateExpense,
-    deleteExpense,
+    createFinance,
+    updateFinance,
+    deleteFinance,
     formWasEdited,
     setFormWasEdited,
-  } = useExpenseModal();
+    financeModalType,
+  } = useFinanceModal();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<InputsType>({
-    resolver: zodResolver(expenseFormSchema),
+    resolver: zodResolver(financeFormSchema),
   });
 
   const onSubmit: SubmitHandler<InputsType> = (data) => {
+    const dataToRequest = { ...data, category: financeModalType };
+
     if (!modalData) {
-      createExpense({ data });
+      createFinance({ data: dataToRequest });
     }
 
     if (modalData) {
-      updateExpense({ id: modalData.id, data });
+      updateFinance({ id: modalData.id, data: dataToRequest });
     }
   };
 
   return (
     <Modal
-      title={modalData ? "Edytuj wydatek" : "Dodaj wydatek"}
+      title={
+        modalData
+          ? `Edytuj ${financeModalType === "PROFIT" ? "zysk" : "wydatek"}`
+          : `Dodaj ${financeModalType === "PROFIT" ? "zysk" : "wydatek"}`
+      }
       closeModal={closeModal}
     >
       <form
@@ -115,7 +122,7 @@ export const ExpenseModal = () => {
                 variant="outline"
                 className="w-full"
                 onClick={() =>
-                  deleteExpense({ id: modalData.id, title: modalData.title })
+                  deleteFinance({ id: modalData.id, title: modalData.title })
                 }
               >
                 Usuń

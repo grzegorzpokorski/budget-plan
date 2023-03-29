@@ -13,12 +13,16 @@ import {
 } from "react-icons/fa";
 
 export const MainHeader = () => {
-  const { openExpenseModal, openBudgetModal } = useUIContext();
+  const { openFinanceModal, openBudgetModal } = useUIContext();
   const budgets = useGetBudgets();
 
   const showAddExpenseButton =
     budgets.isSuccess &&
     budgets.data.budgets.some((budget) => budget.category === "EXPENSE");
+
+  const showAddProfitButton =
+    budgets.isSuccess &&
+    budgets.data.budgets.some((budget) => budget.category === "PROFIT");
 
   return (
     <>
@@ -31,13 +35,25 @@ export const MainHeader = () => {
           <div className="flex flex-row gap-2">
             <div className="hidden md:flex flex-row gap-2">
               {showAddExpenseButton && (
-                <Button variant="outline" onClick={() => openExpenseModal()}>
-                  Nowy wydatek
+                <Button
+                  variant="outline"
+                  onClick={() => openFinanceModal({ category: "EXPENSE" })}
+                >
+                  wydatek
+                  <FaPlus />
+                </Button>
+              )}
+              {showAddProfitButton && (
+                <Button
+                  variant="outline"
+                  onClick={() => openFinanceModal({ category: "PROFIT" })}
+                >
+                  zysk
                   <FaPlus />
                 </Button>
               )}
               <Button variant="outline" onClick={() => openBudgetModal()}>
-                Nowy budżet
+                budżet
                 <FaMoneyCheck />
               </Button>
             </div>
@@ -49,17 +65,26 @@ export const MainHeader = () => {
       </header>
       <div className="fixed md:hidden left-0 bottom-0 w-full h-16 bg-blue-500 flex flex-row border-t-2 shadow z-20">
         <Container className="flex flex-row items-center justify-center">
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row gap-2 overflow-x-auto">
             <Button variant="white-outline" onClick={() => openBudgetModal()}>
-              Nowy budżet
+              budżet
               <FaMoneyCheck />
             </Button>
             {showAddExpenseButton && (
               <Button
                 variant="white-outline"
-                onClick={() => openExpenseModal()}
+                onClick={() => openFinanceModal({ category: "EXPENSE" })}
               >
-                Nowy wydatek
+                wydatek
+                <FaPlus />
+              </Button>
+            )}
+            {showAddProfitButton && (
+              <Button
+                variant="white-outline"
+                onClick={() => openFinanceModal({ category: "PROFIT" })}
+              >
+                zysk
                 <FaPlus />
               </Button>
             )}

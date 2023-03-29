@@ -76,6 +76,7 @@ export const POST = async (request: NextRequest) => {
       budget: {
         select: {
           name: true,
+          category: true,
         },
       },
     },

@@ -11,7 +11,7 @@ type Props = {
   id: number;
   name: string;
   maxAmount: number;
-  category: string;
+  category: "PROFIT" | "EXPENSE";
   as?: "li" | "div";
 };
 
@@ -38,10 +38,10 @@ export const Budget = ({
         <div className="flex flex-col gap-2 pt-4 w-full">
           <div className="flex flex-row justify-between">
             <h3 className="font-bold">{name}</h3>
-            <div className="font-base text-sm">
+            <p className="font-base text-sm text-end">
               {formatCurrency(current)} /{" "}
               <span className="font-semibold">{formatCurrency(maxAmount)}</span>
-            </div>
+            </p>
           </div>
           <Progressbar progress={(current / maxAmount) * 100} />
         </div>

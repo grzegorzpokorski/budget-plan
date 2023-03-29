@@ -28,7 +28,7 @@ export const useUpdateFinance = () => {
     mutationFn: updateFinanceQuery,
     onSuccess: (updated) => {
       queryClient.setQueryData<z.infer<typeof financesSchema>>(
-        ["finance"],
+        ["finances"],
         (prev) => {
           return prev
             ? {

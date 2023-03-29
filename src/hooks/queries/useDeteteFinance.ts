@@ -21,7 +21,7 @@ export const useDeleteFinance = () => {
           return prev
             ? {
                 ...prev,
-                expenses: prev.finances.filter(
+                finances: prev.finances.filter(
                   (prevItem) => prevItem.id !== deleted.id,
                 ),
               }

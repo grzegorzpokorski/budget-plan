@@ -14,7 +14,7 @@ export const budgetFormSchema = z.object({
   }),
 });
 
-export const expenseFormSchema = z.object({
+export const financeFormSchema = z.object({
   title: z.string().min(1, { message: "Tytuł nie może być pusty" }),
   amount: z.coerce.number().positive({
     message: "Wartość wydatku musi być większa od 0.",

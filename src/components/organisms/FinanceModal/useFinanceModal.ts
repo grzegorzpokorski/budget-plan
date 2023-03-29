@@ -1,18 +1,17 @@
 import { z } from "zod";
 import { useState } from "react";
-import { useUIContext } from "@/providers/UIProvider";
+import { FinanceModalType, useUIContext } from "@/providers/UIProvider";
 import { useGetBudgets } from "@/hooks/queries/useGetBudgets";
 import { useCreateFinance } from "@/hooks/queries/useCreateFinance";
 import { useUpdateFinance } from "@/hooks/queries/useUpdateFinance";
 import { useDeleteFinance } from "@/hooks/queries/useDeteteFinance";
-import { budgetShema } from "@/shemas/queries";
-import { expenseFormSchema } from "@/shemas/forms";
+import { financeFormSchema } from "@/shemas/forms";
 
-type Budget = z.infer<typeof budgetShema>;
-type ExpenseFromForm = z.infer<typeof expenseFormSchema>;
+type FinanceFromForm = z.infer<typeof financeFormSchema>;
 
-export const useExpenseModal = () => {
-  const { expenseModalData, closeExpenseModal } = useUIContext();
+export const useFinanceModal = () => {
+  const { financeModalData, closeFinanceModal, financeModalType } =
+    useUIContext();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,20 +19,28 @@ export const useExpenseModal = () => {
 
   const getBudgetsHook = useGetBudgets();
   const budgets = getBudgetsHook.data?.budgets.filter(
-    (budget) => budget.category === "EXPENSE",
+    (budget) => budget.category === financeModalType,
   );
 
   const disabledForm =
     Boolean(error) || Boolean(success) || loading || budgets === undefined;
 
-  const createExpenseHook = useCreateFinance();
-  const createExpense = ({ data }: { data: ExpenseFromForm }) => {
+  const createFinanceHook = useCreateFinance();
+  const createFinance = ({
+    data,
+  }: {
+    data: FinanceFromForm & { category: FinanceModalType };
+  }) => {
     setLoading(true);
-    createExpenseHook.mutate(
+    createFinanceHook.mutate(
       { finance: data },
       {
         onSuccess: () => {
-          setSuccess(`Pomyślnie dodano nowy wydatek: "${data.title}"`);
+          setSuccess(
+            `Pomyślnie dodano nowy ${
+              financeModalType === "PROFIT" ? "zysk" : "wydatek"
+            }: "${data.title}"`,
+          );
         },
         onError: () => {
           setError(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
@@ -44,19 +51,23 @@ export const useExpenseModal = () => {
   };
 
   const updateFinanceHook = useUpdateFinance();
-  const updateExpense = ({
+  const updateFinance = ({
     id,
     data,
   }: {
     id: number;
-    data: ExpenseFromForm;
+    data: FinanceFromForm;
   }) => {
     setLoading(true);
     updateFinanceHook.mutate(
       { id, finance: data },
       {
         onSuccess: () => {
-          setSuccess(`Pomyślnie zaktualizowano wydatek.`);
+          setSuccess(
+            `Pomyślnie zaktualizowano ${
+              financeModalType === "PROFIT" ? "zysk" : "wydatek"
+            }.`,
+          );
         },
         onError: () => {
           setError(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
@@ -67,9 +78,13 @@ export const useExpenseModal = () => {
   };
 
   const deleteFinanceHook = useDeleteFinance();
-  const deleteExpense = ({ id, title }: { id: number; title: string }) => {
+  const deleteFinance = ({ id, title }: { id: number; title: string }) => {
     setLoading(true);
-    const confirmed = confirm(`Czy potwierdzasz usunięcie wydatku ${title}?`);
+    const confirmed = confirm(
+      `Czy potwierdzasz usunięcie  ${
+        financeModalType === "PROFIT" ? "zysku" : "wydateku"
+      } ${title}?`,
+    );
 
     if (!confirmed) return setLoading(false);
 
@@ -78,7 +93,11 @@ export const useExpenseModal = () => {
       { id },
       {
         onSuccess: () => {
-          setSuccess(`Pomyślnie usunięto wydatek "${title}".`);
+          setSuccess(
+            `Pomyślnie usunięto  ${
+              financeModalType === "PROFIT" ? "zysk" : "wydatek"
+            } "${title}".`,
+          );
         },
         onError: () => {
           setError(`Coś poszło nie tak. Spróbuj ponownie póżniej.`);
@@ -89,8 +108,8 @@ export const useExpenseModal = () => {
   };
 
   return {
-    modalData: expenseModalData,
-    closeModal: closeExpenseModal,
+    modalData: financeModalData,
+    closeModal: closeFinanceModal,
     error,
     success,
     loading,
@@ -98,8 +117,9 @@ export const useExpenseModal = () => {
     budgets,
     formWasEdited: wasEdited,
     setFormWasEdited: (state: boolean) => setWasEdited(state),
-    createExpense,
-    updateExpense,
-    deleteExpense,
+    createFinance,
+    updateFinance,
+    deleteFinance,
+    financeModalType,
   };
 };

@@ -1,5 +1,5 @@
 import { queryClient } from "@/lib/queryClient";
-import { budgetShema, budgetsSchema, expensesSchema } from "@/shemas/queries";
+import { budgetShema, budgetsSchema, financesSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
 import { z } from "zod";
@@ -31,14 +31,14 @@ export const useDeleteBudget = () => {
         },
       );
 
-      queryClient.setQueryData<z.infer<typeof expensesSchema>>(
-        ["expenses"],
+      queryClient.setQueryData<z.infer<typeof financesSchema>>(
+        ["finances"],
         (prev) => {
           return prev
             ? {
                 ...prev,
-                expenses: [
-                  ...prev.expenses.filter(
+                finances: [
+                  ...prev.finances.filter(
                     (expense) => expense.budgetId !== deletedBudget.id,
                   ),
                 ],

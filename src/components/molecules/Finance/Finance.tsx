@@ -33,7 +33,7 @@ export const Finance = ({
   createdAt,
   displayDate,
 }: ExpensesItemProps) => {
-  const { openExpenseModal } = useUIContext();
+  const { openFinanceModal } = useUIContext();
 
   return (
     <li className="flex flex-col items-center md:items-start justify-start w-full">
@@ -69,13 +69,16 @@ export const Finance = ({
           <Button
             size="square"
             onClick={() =>
-              openExpenseModal({
-                id,
-                title,
-                amount,
-                budgetName: budget.name,
-                budgetId,
-                description,
+              openFinanceModal({
+                category: budget.category,
+                modalData: {
+                  id,
+                  title,
+                  amount,
+                  budgetName: budget.name,
+                  budgetId,
+                  description,
+                },
               })
             }
           >

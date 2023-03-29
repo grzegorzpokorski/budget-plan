@@ -1,4 +1,5 @@
 import { queryClient } from "@/lib/queryClient";
+import { FinanceModalType } from "@/providers/UIProvider";
 import { financeSchema, financesSchema } from "@/shemas/queries";
 import { fetcher } from "@/utils/fetcher";
 import { useMutation } from "@tanstack/react-query";
@@ -12,6 +13,7 @@ export const createFinanceQuery = async ({
     amount: number;
     budgetId: number;
     description: string;
+    category: FinanceModalType;
   };
 }) =>
   await fetcher({

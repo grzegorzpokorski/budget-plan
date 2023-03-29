@@ -1,12 +1,12 @@
 import { BudgetModal } from "@/components/organisms/BudgetModal/BudgetModal";
-import { ExpenseModal } from "@/components/organisms/ExpenseModal/ExpenseModal";
+import { FinanceModal } from "@/components/organisms/FinanceModal/FinanceModal";
 import { useUIContext } from "@/providers/UIProvider";
 
 export const Modals = () => {
-  const { isBudgetModalOpen, isExpenseModalOpen } = useUIContext();
+  const { isBudgetModalOpen, isFinanceModalOpen } = useUIContext();
   return (
     <>
-      {isExpenseModalOpen && <ExpenseModal />}
+      {isFinanceModalOpen && <FinanceModal />}
       {isBudgetModalOpen && <BudgetModal />}
     </>
   );
