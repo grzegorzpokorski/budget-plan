@@ -39,7 +39,7 @@ export const GET = async (
     );
   }
 
-  const sumOfExpenses = await prisma.expense.aggregate({
+  const sumOfExpenses = await prisma.finance.aggregate({
     where: {
       userId: session.user.id,
       budgetId: budget.id,
