@@ -11,10 +11,17 @@ type Props = {
   id: number;
   name: string;
   maxAmount: number;
+  category: string;
   as?: "li" | "div";
 };
 
-export const Budget = ({ as: Tag = "li", id, name, maxAmount }: Props) => {
+export const Budget = ({
+  as: Tag = "li",
+  id,
+  name,
+  maxAmount,
+  category,
+}: Props) => {
   const { openBudgetModal } = useUIContext();
   const { data, isSuccess, isError } = useGetExpenses();
 
@@ -41,7 +48,7 @@ export const Budget = ({ as: Tag = "li", id, name, maxAmount }: Props) => {
         <div className="flex flex-col md:flex-row gap-2 ml-auto my-auto">
           <Button
             size="square"
-            onClick={() => openBudgetModal({ id, name, maxAmount })}
+            onClick={() => openBudgetModal({ id, name, maxAmount, category })}
           >
             <span className="sr-only">edytuj</span>
             <FaEdit />

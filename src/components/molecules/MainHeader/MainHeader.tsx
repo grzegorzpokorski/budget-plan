@@ -16,6 +16,10 @@ export const MainHeader = () => {
   const { openExpenseModal, openBudgetModal } = useUIContext();
   const budgets = useGetBudgets();
 
+  const showAddExpenseButton =
+    budgets.isSuccess &&
+    budgets.data.budgets.some((budget) => budget.category === "EXPENSE");
+
   return (
     <>
       <header className="md:fixed top-0 left-0 w-full h-16 bg-white flex flex-row shadow z-20">
@@ -26,7 +30,7 @@ export const MainHeader = () => {
           </h1>
           <div className="flex flex-row gap-2">
             <div className="hidden md:flex flex-row gap-2">
-              {budgets.isSuccess && budgets.data.budgets.length > 0 && (
+              {showAddExpenseButton && (
                 <Button variant="outline" onClick={() => openExpenseModal()}>
                   Nowy wydatek
                   <FaPlus />
@@ -50,7 +54,7 @@ export const MainHeader = () => {
               Nowy budżet
               <FaMoneyCheck />
             </Button>
-            {budgets.isSuccess && budgets.data.budgets.length > 0 && (
+            {showAddExpenseButton && (
               <Button
                 variant="white-outline"
                 onClick={() => openExpenseModal()}

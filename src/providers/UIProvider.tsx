@@ -13,6 +13,7 @@ type BudgetModalData = {
   id: number;
   name: string;
   maxAmount: number;
+  category: string;
 };
 
 type ExpenseModalData = {

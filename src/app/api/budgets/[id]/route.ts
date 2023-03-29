@@ -101,6 +101,7 @@ export const DELETE = async (
 const patchBudgetSchemaBody = z.object({
   name: z.string(),
   maxAmount: z.coerce.number(),
+  category: z.enum(["EXPENSE", "PROFIT"]),
 });
 
 export const PATCH = async (

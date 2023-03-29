@@ -7,6 +7,11 @@ export const budgetFormSchema = z.object({
   maxAmount: z.coerce.number().positive({
     message: "Docelowa wartość budżetu musi być większa od 0.",
   }),
+  category: z.enum(["PROFIT", "EXPENSE"], {
+    errorMap: (issue, ctx) => ({
+      message: "Wybierz odpowiednią kategorię dla budżetu.",
+    }),
+  }),
 });
 
 export const expenseFormSchema = z.object({

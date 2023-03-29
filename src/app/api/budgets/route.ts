@@ -35,6 +35,7 @@ export const GET = async (request: Request) => {
 const newBudgetSchema = z.object({
   name: z.string(),
   maxAmount: z.coerce.number(),
+  category: z.enum(["EXPENSE", "PROFIT"]),
 });
 
 export const POST = async (request: NextRequest) => {
@@ -58,6 +59,7 @@ export const POST = async (request: NextRequest) => {
     where: {
       name: requestBody.data.name,
       userId: session.user.id,
+      category: requestBody.data.category,
     },
   });
 
@@ -65,7 +67,7 @@ export const POST = async (request: NextRequest) => {
     return new Response(
       JSON.stringify({
         statusCode: 409,
-        error: "Budget with given name already exists",
+        error: "Budget with given name and category already exists",
       }),
       {
         status: 409,
@@ -78,6 +80,7 @@ export const POST = async (request: NextRequest) => {
       name: requestBody.data.name,
       maxAmount: requestBody.data.maxAmount,
       userId: session.user.id,
+      category: requestBody.data.category,
     },
   });
 

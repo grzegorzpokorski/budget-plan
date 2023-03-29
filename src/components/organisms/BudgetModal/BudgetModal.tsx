@@ -10,6 +10,7 @@ import { Input } from "@/components/molecules/Input/Input";
 import { FormInfo } from "@/components/atoms/FormInfo/FormInfo";
 import { Loader } from "@/components/molecules/Loader/loader";
 import { useBudgetModal } from "./useBudgetModal";
+import { Select } from "@/components/molecules/Select/Select";
 
 type InputsType = z.infer<typeof budgetFormSchema>;
 
@@ -26,6 +27,7 @@ export const BudgetModal = () => {
     createBudget,
     updateBudget,
     deleteBudget,
+    budgetCategories,
   } = useBudgetModal();
 
   const {
@@ -68,6 +70,22 @@ export const BudgetModal = () => {
               defaultValue={modalData?.name}
             />
           </div>
+          {budgetCategories && (
+            <div className="w-full">
+              <Select
+                label="Wybierz budżet"
+                {...register("category")}
+                isError={Boolean(errors.category)}
+                errormessage={errors.category?.message || ""}
+                defaultValue={modalData?.category || ""}
+                options={budgetCategories.map((option) => ({
+                  label: option.label,
+                  value: option.value,
+                }))}
+                required
+              />
+            </div>
+          )}
           <div className="w-full">
             <Input
               type="number"

@@ -57,14 +57,20 @@ model VerificationToken {
 }
 
 model Budget {
-  id        Int       @id @default(autoincrement())
+  id        Int             @id @default(autoincrement())
   name      String
   maxAmount Float
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
+  category  FinanceCategory
   Expense   Expense[]
-  createdAt DateTime  @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime  @updatedAt() @db.Timestamptz(6)
+  createdAt DateTime        @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime        @updatedAt() @db.Timestamptz(6)
+}
+
+enum FinanceCategory {
+  EXPENSE
+  PROFIT
 }
 
 model Expense {

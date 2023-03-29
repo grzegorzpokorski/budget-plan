@@ -19,7 +19,9 @@ export const useExpenseModal = () => {
   const [wasEdited, setWasEdited] = useState(false);
 
   const getBudgetsHook = useGetBudgets();
-  const budgets = getBudgetsHook.data?.budgets;
+  const budgets = getBudgetsHook.data?.budgets.filter(
+    (budget) => budget.category === "EXPENSE",
+  );
 
   const disabledForm =
     Boolean(error) || Boolean(success) || loading || budgets === undefined;

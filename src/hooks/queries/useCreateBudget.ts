@@ -10,6 +10,7 @@ export const createBudgetQuery = async ({
   budget: {
     name: string;
     maxAmount: number;
+    category: string;
   };
 }) =>
   await fetcher({

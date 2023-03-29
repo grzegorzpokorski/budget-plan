@@ -26,6 +26,7 @@ export const budgetWithSumOfExpensesSchema = z.object({
   createdAt: z.string(),
   updatedAt: z.string(),
   sumOfExpenses: z.number().nonnegative(),
+  category: z.enum(["EXPENSE", "PROFIT"]),
 });
 
 export const budgetShema = z.object({
@@ -35,6 +36,7 @@ export const budgetShema = z.object({
   userId: z.string().nonempty(),
   createdAt: z.string(),
   updatedAt: z.string(),
+  category: z.enum(["EXPENSE", "PROFIT"]),
 });
 
 export const budgetsSchema = z.object({
