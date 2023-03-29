@@ -12,7 +12,7 @@ export const HomePage = () => (
   <Private>
     <MainHeader />
     <Container className="flex flex-col py-8">
-      <BudgetRealization name="Realizacja" />
+      <BudgetRealization />
       <Budgets />
       <Finances />
     </Container>
