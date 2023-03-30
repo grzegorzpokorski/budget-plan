@@ -73,7 +73,7 @@ export const BudgetModal = () => {
           {budgetCategories && (
             <div className="w-full">
               <Select
-                label="Wybierz budżet"
+                label="Wybierz kategorię"
                 {...register("category")}
                 isError={Boolean(errors.category)}
                 errormessage={errors.category?.message || ""}
