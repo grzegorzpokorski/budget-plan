@@ -3,6 +3,7 @@
 import { Container } from "@/components/atoms/Container/Container";
 import { Private } from "@/components/atoms/Private/Private";
 import { BudgetRealization } from "@/components/molecules/BudgetRealization/BudgetRealization";
+import { Loader } from "@/components/molecules/BudgetRealization/Loader";
 import { MainHeader } from "@/components/molecules/MainHeader/MainHeader";
 import { Budgets } from "@/components/organisms/Budgets/Budgets";
 import { Finances } from "@/components/organisms/Finances/Finances";
@@ -12,6 +13,7 @@ export const HomePage = () => (
   <Private>
     <MainHeader />
     <Container className="flex flex-col py-8">
+      <Loader />
       <BudgetRealization />
       <Budgets />
       <Finances />
