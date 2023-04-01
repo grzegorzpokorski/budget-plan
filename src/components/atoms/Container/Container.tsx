@@ -12,7 +12,7 @@ export const Container = ({
   children,
   className,
 }: ContainerProps) => (
-  <Tag className={twMerge("max-w-2xl w-full mx-auto px-3", className)}>
+  <Tag className={twMerge("max-w-3xl w-full mx-auto px-3", className)}>
     {children}
   </Tag>
 );

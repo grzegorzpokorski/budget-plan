@@ -10,11 +10,14 @@ import {
   FaMoneyCheckAlt,
   FaPlus,
   FaPowerOff,
+  FaFileCsv,
 } from "react-icons/fa";
 
 export const MainHeader = () => {
   const { openFinanceModal, openBudgetModal } = useUIContext();
   const budgets = useGetBudgets();
+
+  const showExport = budgets.isSuccess && budgets.data.budgets.length > 0;
 
   const showAddExpenseButton =
     budgets.isSuccess &&
@@ -57,6 +60,14 @@ export const MainHeader = () => {
                 <FaMoneyCheck />
               </Button>
             </div>
+            {showExport && (
+              <a href="/api/export" target="_blank">
+                <Button variant="outline">
+                  Eksport CSV
+                  <FaFileCsv />
+                </Button>
+              </a>
+            )}
             <Button onClick={() => void signOut({ callbackUrl: "/login" })}>
               Wyloguj <FaPowerOff />
             </Button>

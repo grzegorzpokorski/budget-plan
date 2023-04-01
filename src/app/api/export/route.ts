@@ -1,8 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
-import { NextRequest } from "next/server";
-import { z } from "zod";
 
 export const GET = async (request: Request) => {
   const session = await getServerSession(authOptions);
@@ -30,21 +28,42 @@ export const GET = async (request: Request) => {
     },
   });
 
-  return new Response(
-    JSON.stringify({
-      finances: finances.map((item) => ({
-        id: item.id,
-        title: item.title,
-        amount:
-          item.budget.category === "EXPENSE" ? item.amount * -1 : item.amount,
-        budget: item.budget.name,
-        description: item.description,
-        createdAt: item.createdAt,
-        updatedAt: item.updatedAt,
-      })),
-    }),
-    {
-      status: 200,
+  const exportFileName = `finances-export-${new Date(Date.now())
+    .toJSON()
+    .replaceAll(":", "-")
+    .replaceAll(".", "-")}`;
+
+  const generatedCSV = finances
+    .map((finance) => ({
+      id: finance.id,
+      title: finance.title,
+      amount:
+        finance.budget.category === "EXPENSE"
+          ? finance.amount * -1
+          : finance.amount,
+      budget: finance.budget.name,
+      description: finance.description,
+      createdAt: finance.createdAt,
+      updatedAt: finance.updatedAt,
+    }))
+    .reduce((sum, curr) => {
+      return (sum +=
+        [
+          curr.id,
+          `"${curr.title}"`,
+          curr.amount,
+          `"${curr.budget}"`,
+          `"${curr.description}"`,
+          curr.createdAt.toJSON(),
+          curr.updatedAt.toJSON(),
+        ].join(",") + "\r\n");
+    }, ["id", "title", "amount", "budget", "description", "createdAt", "updatedAt"].join(",") + "\r\n");
+
+  return new Response(generatedCSV, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/csv; charset=UTF-8",
+      "Content-Disposition": `attachment; filename="${exportFileName}.csv"`,
     },
-  );
+  });
 };
