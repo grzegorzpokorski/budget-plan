@@ -63,7 +63,7 @@ export const MainHeader = () => {
             {showExport && (
               <a href="/api/export" target="_blank">
                 <Button variant="outline">
-                  Eksport CSV
+                  <span className="hidden md:inline">Eksport</span> CSV
                   <FaFileCsv />
                 </Button>
               </a>
