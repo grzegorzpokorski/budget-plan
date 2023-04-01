@@ -1,6 +1,11 @@
 # Budget Plan
 
-Application which will help You plan your budget.
+An application that will help you plan your budget. With this app, you can:
+
+- create budgets with an estimated maximum value for both categories of finances - expenses and profits; you can also edit them after creating them,
+- note expenses and incomes with an assigned budget and optional description, with the ability to edit all data in the future,
+- monitor the realization of all your budgets in a simple summary,
+- download a CSV file with all your information about added expenses and incomes using the app.
 
 ## Used technologies 🛠️:
 
