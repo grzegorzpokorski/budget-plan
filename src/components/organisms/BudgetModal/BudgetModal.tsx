@@ -36,9 +36,11 @@ export const BudgetModal = () => {
     formState: { errors },
   } = useForm<InputsType>({
     resolver: zodResolver(budgetFormSchema),
+    mode: "onTouched",
+    shouldUseNativeValidation: false,
   });
 
-  const onSubmit: SubmitHandler<InputsType> = (data) => {
+  const handleData: SubmitHandler<InputsType> = (data) => {
     if (!modalData) {
       createBudget({ data });
     }
@@ -54,8 +56,10 @@ export const BudgetModal = () => {
       closeModal={closeModal}
     >
       <form
-        onSubmit={handleSubmit(onSubmit)}
-        onChange={() => setFormWasEdited(true)}
+        onSubmit={handleSubmit(handleData)}
+        onChange={() => {
+          setFormWasEdited(true);
+        }}
         className="flex flex-col pt-6"
       >
         <fieldset disabled={disabledForm}>

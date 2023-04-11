@@ -37,9 +37,11 @@ export const FinanceModal = () => {
     formState: { errors },
   } = useForm<InputsType>({
     resolver: zodResolver(financeFormSchema),
+    mode: "onTouched",
+    shouldUseNativeValidation: false,
   });
 
-  const onSubmit: SubmitHandler<InputsType> = (data) => {
+  const handleData: SubmitHandler<InputsType> = (data) => {
     const dataToRequest = { ...data, category: financeModalType };
 
     if (!modalData) {
@@ -61,7 +63,7 @@ export const FinanceModal = () => {
       closeModal={closeModal}
     >
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(handleData)}
         onChange={() => setFormWasEdited(true)}
         className="flex flex-col pt-6"
       >
