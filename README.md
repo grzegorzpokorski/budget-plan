@@ -45,8 +45,8 @@ To run it in local environment firstly you should prepare `.env` file with requi
 
 ```
 docker compose up
-npx prisma migrate dev
-npx prisma generate
+pnpm dlx prisma migrate dev
+pnpm dlx prisma generate
 pnpm dev
 ```
 
